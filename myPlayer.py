@@ -58,24 +58,23 @@ class myPlayer(PlayerInterface):
         else:
             print("I lost :(!!")
 
-    def heuristic(self):
+    def weightHeuristic(self):
         result = 0
         for x in range(SIZE):
             for y in range(SIZE):
-                if self._board._board[x][y] == self._board._BLACK:
+                if self._board._board[x][y] == self._mycolor:
                     result += self._weight[x][y]
-                elif self._board._board[x][y] == self._board._WHITE:
-                    result -= self._weight[x][y]
-                else:
+                elif self._board._board[x][y] == self._board._EMPTY:
                     pass
+                else:
+                    result -= self._weight[x][y]
         return result
 
-    """
     def mobility_heuristic(self):
         result = 0
         color = self._mycolor
         playerCorner = self.corner_number(self._mycolor)
-        opponentCorner = self.corner_number(self.flip_color(self._mycolor))
+        opponentCorner = self.corner_number(self._board._flip(self._mycolor))
         #possibleMovePlayer =
         #possibleMoveOpponen =
         print("mobility heuristic")
@@ -83,26 +82,21 @@ class myPlayer(PlayerInterface):
         print(result)
         return result
 
-    def flip_color(self, player):
-        if player == self._board._BLACK:
-            return self._board._WHITE
-        return self._board_BLACK
-
     def corner_number(self, color):
         result = 0
-        if(self._board._board[0][0] == color):
+        if self._board._board[0][0] == color:
             result += 1
-        if (self._board._board[0][SIZE-1] == color):
+        if self._board._board[0][SIZE - 1] == color:
             result += 1
-        if (self._board._board[SIZE-1][0] == color):
+        if self._board._board[SIZE - 1][0] == color:
             result += 1
-        if (self._board._board[SIZE-1][SIZE-1] == color):
+        if self._board._board[SIZE - 1][SIZE - 1] == color:
             result += 1
-        return result;
-    """
+        return result
+
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self._board.is_game_over():
-            return self.heuristic()
+            return self.weightHeuristic()
         if maximizingPlayer:
             value = -10000
             for m in self._board.legal_moves():

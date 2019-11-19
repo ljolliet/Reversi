@@ -1,14 +1,20 @@
 # Reversi
 
-##Random ideas :
- -[ ] basic weights
+## Random ideas :
+### Heuristic
+ -[x] basic weights
  -[ ] check if in corners (best possible move)
  -[ ] corner closeness
  -[ ] "mobility"
  -[ ] "stability"
  -[ ] create start lib
  -[ ] hashTable that remember some moves calculation
- -[ ] game phases with differents heuristic for each
+ -[ ] game phases with different heuristic for each
+ 
+### Algo
+ -[ ] minMax
+ -[ ] alphaBeta
+ -[ ] negamax
  
 ##Biblio
    - http://play-othello.appspot.com/files/Othello.pdf
