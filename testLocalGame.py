@@ -20,8 +20,8 @@ nextplayer = 0
 nextplayercolor = b._BLACK
 nbmoves = 1
 
-outputs = ["", ""]
-sysstdout = sys.stdout
+outputs = ["",""]
+sysstdout= sys.stdout
 stringio = StringIO()
 
 while not b.is_game_over():
@@ -37,10 +37,13 @@ while not b.is_game_over():
     sys.stdout = stringio
     move = players[nextplayer].getPlayerMove()
     sys.stdout = sysstdout
-    #print(("[Player " + str(nextplayer) + "] ").join(playeroutput.splitlines(True)))
+    playeroutput = "\r" + stringio.getvalue()
+    stringio.truncate(0)
+    print(("[Player "+str(nextplayer) + "] ").join(playeroutput.splitlines(True)))
+    outputs[nextplayer] += playeroutput
     totalTime[nextplayer] += time.time() - currentTime
     print("Player ", nextplayercolor, players[nextplayer].getPlayerName(), "plays" + str(move))
-    (x, y) = move
+    (x,y) = move
     if not b.is_valid_move(nextplayercolor, x, y):
         print(otherplayer, nextplayer, nextplayercolor)
         print("Problem: illegal move")
