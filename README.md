@@ -8,6 +8,7 @@
  -[ ] "stability"
  -[ ] create start lib
  -[ ] hashTable that remember some moves calculation
+ -[ ] game phases with differents heuristic for each
  
 ##Biblio
    - http://play-othello.appspot.com/files/Othello.pdf

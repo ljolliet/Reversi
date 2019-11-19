@@ -5,6 +5,7 @@ import Reversi
 from random import randint
 from playerInterface import *
 
+
 SIZE = 10
 # noinspection PyAttributeOutsideInit
 class myPlayer(PlayerInterface):
@@ -69,6 +70,36 @@ class myPlayer(PlayerInterface):
                     pass
         return result
 
+    """
+    def mobility_heuristic(self):
+        result = 0
+        color = self._mycolor
+        playerCorner = self.corner_number(self._mycolor)
+        opponentCorner = self.corner_number(self.flip_color(self._mycolor))
+        #possibleMovePlayer =
+        #possibleMoveOpponen =
+        print("mobility heuristic")
+        #result = 10*(playerCorner - opponentCorner) + ((possibleMovePlayer - possibleMoveOpponen)/(possibleMovePlayer + possibleMoveOpponen))
+        print(result)
+        return result
+
+    def flip_color(self, player):
+        if player == self._board._BLACK:
+            return self._board._WHITE
+        return self._board_BLACK
+
+    def corner_number(self, color):
+        result = 0
+        if(self._board._board[0][0] == color):
+            result += 1
+        if (self._board._board[0][SIZE-1] == color):
+            result += 1
+        if (self._board._board[SIZE-1][0] == color):
+            result += 1
+        if (self._board._board[SIZE-1][SIZE-1] == color):
+            result += 1
+        return result;
+    """
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self._board.is_game_over():
             return self.heuristic()
