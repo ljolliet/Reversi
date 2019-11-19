@@ -1,4 +1,5 @@
 class PlayerInterface():
+
     # Returns your player name, as to be displayed during the game
     def getPlayerName(self):
         return "Not Defined"
@@ -12,7 +13,7 @@ class PlayerInterface():
     def getPlayerMove(self):
         return (-1,-1)
 
-    # Inform you that the oponent has played this move. You must play it
+    # Inform you that the opponent has played this move. You must play it
     # with no search (just update your local variables to take it into account)
     def playOpponentMove(self, x,y):
         pass
