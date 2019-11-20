@@ -1,11 +1,11 @@
-import testLocalGame
+from testLocalGame import launchLocalGame
 import result
 
-size = 10
+size = 20
 result = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
-    testLocalGame.launchLocalGame(result)
+    launchLocalGame(result)
 print("----- end ------")
 
-print("Results on a ", size, " Benchmark : ", result.toPercent())
+print("Results on a ", size, " Benchmark : \n", str(result))

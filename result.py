@@ -3,9 +3,13 @@ class Result:
         self.w = 0
         self.d = 0
         self.l = 0
+        self.scores = []
 
     def __str__(self):
-        return "w: " + str(self.w) + " l:" + str(self.d) + " d: " + str(self.l)
+        value = "w: " + str(self.w) + " d:" + str(self.d) + " l: " + str(self.l)
+        (x, y) = self.meanScore()
+        value += "\n" + str(x) + " : " + str(y)
+        return value
 
     def add(self, other):
         self.w += other.w
@@ -21,10 +25,21 @@ class Result:
     def addLose(self):
         self.l += 1
 
-    def toPercent(self):
+    def resultToPercent(self):
         result = Result()
         total = self.w + self.d + self.l
         result.w = self.w * 100 / total
         result.d = self.d * 100 / total
         result.l = self.l * 100 / total
         return result
+
+    def meanScore(self):
+        x = 0
+        y = 0
+        for s in self.scores:
+            x += s[0]
+            y += s[1]
+        return x / len(self.scores), y / len(self.scores)
+
+    def addScore(self, a, b):
+        self.scores.append((a, b))

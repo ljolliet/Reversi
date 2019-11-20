@@ -56,13 +56,14 @@ def launchLocalGame(result=None):
     print("Winner: ", end="")
     if nbwhites > nbblacks:
         print("WHITE")
-        if result != None: result.addLose()
+        if result is not None: result.addLose()
     elif nbblacks > nbwhites:
         print("BLACK")
-        if result != None: result.addWin()
+        if result is not None: result.addWin()
     else:
         print("DEUCE")
-        if result != None: result.addDeuce()
+        if result is not None: result.addDeuce()
+    if result is not None: result.addScore(nbblacks, nbwhites)
 
 
 launchLocalGame()
