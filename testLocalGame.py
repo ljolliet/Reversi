@@ -5,12 +5,15 @@ import time
 from io import StringIO
 import sys
 
+import weightHeuristic
 
-def launchLocalGame(result=None):
+
+def launchLocalGame(playerHeuristic=weightHeuristic.weightHeuristic(), result=None):
     b = Reversi.Board(10)
 
     players = []
     player1 = myPlayer.myPlayer()
+    player1.setHeuristic(playerHeuristic)
     player1.newGame(b._BLACK)
     players.append(player1)
     player2 = randomPlayer.randomPlayer()

@@ -4,30 +4,19 @@ import time
 import Reversi
 from random import randint
 from playerInterface import *
-
+from heuristicInterface import *
 
 SIZE = 10
+
+
 # noinspection PyAttributeOutsideInit
 class myPlayer(PlayerInterface):
 
     def __init__(self):
         self._board = Reversi.Board(SIZE)
         self._mycolor = None
-
+        self._heuristic = None  # TODO at the end set the heuristic
         self._depth = 3
-
-        self._weight = [
-            [100, -20, 20, 10, 5,   5, 10, 20, -20, 100],
-            [-20, -50, -2, -2, -2, -2, -2, -2, -50, -20],
-            [20,  -2,  -1, -1, -1, -1, -1, -1, -2,  20],
-            [10,  -2,  -1, -1, -1, -1, -1, -1, -2,  10],
-            [5,   -2,  -1, -1, -1, -1, -1, -1, -2,  5],
-            [5,   -2,  -1, -1, -1, -1, -1, -1, -2,  5],
-            [10,  -2,  -1, -1, -1, -1, -1, -1, -2,  10],
-            [20,  -2,  -1, -1, -1, -1, -1, -1, -2,  20],
-            [-20, -50, -2, -2, -2, -2, -2, -2, -50, -20],
-            [100, -20, 20, 10,  5,  5, 10, 20, -20, 100]
-        ]
 
     def getPlayerName(self):
         return "Random Player"
@@ -60,27 +49,18 @@ class myPlayer(PlayerInterface):
         else:
             print("I lost :(!!")
 
-    def weightHeuristic(self):
-        result = 0
-        for x in range(SIZE):
-            for y in range(SIZE):
-                if self._board._board[x][y] == self._mycolor:
-                    result += self._weight[x][y]
-                elif self._board._board[x][y] == self._board._EMPTY:
-                    pass
-                else:
-                    result -= self._weight[x][y]
-        return result
+    def setHeuristic(self, heuristic):
+        self._heuristic = heuristic
 
     def mobility_heuristic(self):
         result = 0
         color = self._mycolor
         playerCorner = self.corner_number(self._mycolor)
         opponentCorner = self.corner_number(self._board._flip(self._mycolor))
-        #possibleMovePlayer =
-        #possibleMoveOpponen =
+        # possibleMovePlayer =
+        # possibleMoveOpponen =
         print("mobility heuristic")
-        #result = 10*(playerCorner - opponentCorner) + ((possibleMovePlayer - possibleMoveOpponen)/(possibleMovePlayer + possibleMoveOpponen))
+        # result = 10*(playerCorner - opponentCorner) + ((possibleMovePlayer - possibleMoveOpponen)/(possibleMovePlayer + possibleMoveOpponen))
         print(result)
         return result
 
@@ -98,7 +78,7 @@ class myPlayer(PlayerInterface):
 
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self._board.is_game_over():
-            return self.weightHeuristic()
+            return self._heuristic.compute(self._board, self._mycolor)
         if maximizingPlayer:
             value = -10000
             for m in self._board.legal_moves():
