@@ -1,11 +1,11 @@
 from testLocalGame import launchLocalGame
 import result
 
-size = 3
+size = 15
 result = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
-    launchLocalGame(result)
+    launchLocalGame(result=result)
 print("----- end ------")
 
 print("Results on a ", size, " Benchmark : \n", str(result))

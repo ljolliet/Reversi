@@ -5,7 +5,6 @@ import Reversi
 import heuristics
 from random import randint
 from playerInterface import *
-from heuristicInterface import *
 
 SIZE = 10
 
