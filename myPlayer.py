@@ -2,6 +2,7 @@
 
 import time
 import Reversi
+import heuristics
 from random import randint
 from playerInterface import *
 from heuristicInterface import *
@@ -15,7 +16,7 @@ class myPlayer(PlayerInterface):
     def __init__(self):
         self._board = Reversi.Board(SIZE)
         self._mycolor = None
-        self._heuristic = None  # TODO at the end set the heuristic
+        self._heuristic = heuristics.heuristicsdef(self._board)  # TODO at the end set the heuristic
         self._depth = 3
 
     def getPlayerName(self):
@@ -41,6 +42,7 @@ class myPlayer(PlayerInterface):
 
     def newGame(self, color):
         self._mycolor = color
+        self._heuristic._color = color
         self._opponent = 1 if color == 2 else 2
 
     def endGame(self, winner):
@@ -49,36 +51,13 @@ class myPlayer(PlayerInterface):
         else:
             print("I lost :(!!")
 
+
     def setHeuristic(self, heuristic):
         self._heuristic = heuristic
 
-    def mobility_heuristic(self):
-        result = 0
-        color = self._mycolor
-        playerCorner = self.corner_number(self._mycolor)
-        opponentCorner = self.corner_number(self._board._flip(self._mycolor))
-        # possibleMovePlayer =
-        # possibleMoveOpponen =
-        print("mobility heuristic")
-        # result = 10*(playerCorner - opponentCorner) + ((possibleMovePlayer - possibleMoveOpponen)/(possibleMovePlayer + possibleMoveOpponen))
-        print(result)
-        return result
-
-    def corner_number(self, color):
-        result = 0
-        if self._board._board[0][0] == color:
-            result += 1
-        if self._board._board[0][SIZE - 1] == color:
-            result += 1
-        if self._board._board[SIZE - 1][0] == color:
-            result += 1
-        if self._board._board[SIZE - 1][SIZE - 1] == color:
-            result += 1
-        return result
-
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self._board.is_game_over():
-            return self._heuristic.compute(self._board, self._mycolor)
+            return self._heuristic.compute_all_heuristics()
         if maximizingPlayer:
             value = -10000
             for m in self._board.legal_moves():

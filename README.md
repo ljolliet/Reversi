@@ -5,7 +5,7 @@
  -[x] basic weights
  -[ ] check if in corners (best possible move)
  -[ ] corner closeness
- -[ ] "mobility"
+ -[ ] "mobility" // Work for current player
  -[ ] "stability"
  -[ ] create start lib
  -[ ] hashTable that remember some moves calculation

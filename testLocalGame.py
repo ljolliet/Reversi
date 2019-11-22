@@ -13,7 +13,7 @@ def launchLocalGame(playerHeuristic=weightHeuristic.weightHeuristic(), result=No
 
     players = []
     player1 = myPlayer.myPlayer()
-    player1.setHeuristic(playerHeuristic)
+    #player1.setHeuristic(playerHeuristic)
     player1.newGame(b._BLACK)
     players.append(player1)
     player2 = randomPlayer.randomPlayer()
