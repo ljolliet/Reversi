@@ -1,3 +1,6 @@
+EARLY_GAME = 36
+MIDDLE_GAME = 75
+
 class heuristicsdef:
 
     def __init__(self, board):
@@ -53,6 +56,10 @@ class heuristicsdef:
         result = - (10 * opponentCorner + opponentMoves)
         return result
 
+    def diff_heuristic(self):
+        (nb_opponent_moves, nb_player_move) = self._board.get_nb_pieces()
+        return nb_player_move - nb_opponent_moves
+
     def corner_number(self):
         oColor = self._board._flip(self._color)
         result = 0
@@ -69,19 +76,11 @@ class heuristicsdef:
     def compute_all_heuristics(self):
         pieces = self._board._nbWHITE + self._board._nbBLACK
         max_pieces = self._size * self._size
-        EARLY_GAME = max_pieces/3
-        MIDDLE_GAME = (max_pieces/3) * 2
 
-        #print("WEIGHT VALUE", self.weight_heuritic)
-        #print("MOBILITY VALUE", self.mobily_heuritic)
-        #print("NB_PIECE VALUE", self.nb_piece_heuristic)
-
-        #use differents heuristics depend of number of move in the game (game time)
-        if pieces < EARLY_GAME:
-            return self.weight_heuritic() + self.nb_piece_heuristic()
-        elif pieces < MIDDLE_GAME:
-            return self.weight_heuritic() + self.mobility_heuristic() + self.nb_piece_heuristic()
+        # use differents heuristics depend of number of move in the game (game time)
+        if pieces <= EARLY_GAME:
+            return 10 * self.weight_heuritic() + self.mobility_heuristic()
+        elif pieces <= MIDDLE_GAME:
+            return 10 * self.weight_heuritic() + self.mobility_heuristic()  ##+ others
         else:
-            return self.weight_heuritic() + self.mobility_heuristic() + self.nb_piece_heuristic()
-
-
+            return self.weight_heuritic() + self.mobility_heuristic() + self.diff_heuristic()

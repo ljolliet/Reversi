@@ -40,7 +40,7 @@ class Board:
     # sous forme de tuple (blancs, noirs) 
     # Peut être utilisé si le jeu est terminé pour déterminer le vainqueur
     def get_nb_pieces(self):
-        return (self._nbWHITE, self._nbBLACK)
+            return (self._nbWHITE, self._nbBLACK)
 
     # Vérifie si player a le droit de jouer en (x,y)
     def is_valid_move(self, player, x, y):

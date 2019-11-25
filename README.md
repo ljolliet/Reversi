@@ -9,7 +9,7 @@
 - [ ] "stability"
 - [ ] create start lib
 - [ ] hashTable that remember some moves calculation
-- [ ] game phases with different heuristic for each
+- [x] game phases with different heuristic for each
  
 ### Algo
 - [ ] minMax

@@ -26,6 +26,7 @@ class myPlayer(PlayerInterface):
             print("Referee told me to play but the game is over!")
             return (-1, -1)
         move = self.start_minmax(self._depth, True)
+        print("MOVE ",  move)
         self._board.push(move)
         print("I am playing ", move)
         (c, x, y) = move
@@ -58,14 +59,14 @@ class myPlayer(PlayerInterface):
         if depth == 0 or self._board.is_game_over():
             return self._heuristic.compute_all_heuristics()
         if maximizingPlayer:
-            value = -10000
+            value = -100000000
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = max(value, self.minimax(depth - 1, False))
                 self._board.pop()
             return value
         else:
-            value = 10000
+            value = 100000000
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = min(value, self.minimax(depth - 1, True))
@@ -77,7 +78,7 @@ class myPlayer(PlayerInterface):
             return
         best_move = None
         if maximizingPlayer:
-            best_value = -10000
+            best_value = -100000000
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = self.minimax(depth - 1, not maximizingPlayer)
@@ -86,7 +87,7 @@ class myPlayer(PlayerInterface):
                     best_move = m
                 self._board.pop()
         else:
-            best_value = 10000
+            best_value = 100000000
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = self.minimax(depth - 1, not maximizingPlayer)
