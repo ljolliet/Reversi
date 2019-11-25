@@ -2,9 +2,10 @@
 
 import time
 import Reversi
-import heuristics
+import heuristic
 from random import randint
 from playerInterface import *
+import simpleEvaluator
 
 SIZE = 10
 
@@ -15,7 +16,7 @@ class myPlayer(PlayerInterface):
     def __init__(self):
         self._board = Reversi.Board(SIZE)
         self._mycolor = None
-        self._heuristic = heuristics.heuristicsdef(self._board)  # TODO at the end set the heuristic
+        self._heuristic = simpleEvaluator.simpleEvaluator(self._board)  # TODO at the end set the heuristic
         self._depth = 3
 
     def getPlayerName(self):
@@ -26,7 +27,7 @@ class myPlayer(PlayerInterface):
             print("Referee told me to play but the game is over!")
             return (-1, -1)
         move = self.start_minmax(self._depth, True)
-        print("MOVE ",  move)
+        print("MOVE ", move)
         self._board.push(move)
         print("I am playing ", move)
         (c, x, y) = move
@@ -51,13 +52,12 @@ class myPlayer(PlayerInterface):
         else:
             print("I lost :(!!")
 
-
-    def setHeuristic(self, heuristic):
-        self._heuristic = heuristic
+    def setHeuristic(self, h):
+        self._heuristic = h
 
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self._board.is_game_over():
-            return self._heuristic.compute_all_heuristics()
+            return self._heuristic.compute()
         if maximizingPlayer:
             value = -100000000
             for m in self._board.legal_moves():

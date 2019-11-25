@@ -7,13 +7,12 @@ import sys
 
 
 
-
 def launchLocalGame(result=None):
     b = Reversi.Board(10)
 
     players = []
     player1 = myPlayer.myPlayer()
-    #player1.setHeuristic(playerHeuristic)
+    ##player1.setHeuristic(simpleEvaluator.simpleEvaluator())
     player1.newGame(b._BLACK)
     players.append(player1)
     player2 = randomPlayer.randomPlayer()

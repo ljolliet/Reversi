@@ -1,7 +1,8 @@
 EARLY_GAME = 36
 MIDDLE_GAME = 75
 
-class heuristicsdef:
+
+class heuristic:
 
     def __init__(self, board):
         self._weight = [
@@ -20,7 +21,6 @@ class heuristicsdef:
         self._color = None
         self._size = board.get_board_size()
 
-
     def nb_piece_heuristic(self):
         if self._color == self._board._WHITE:
             return self._board._WHITE - self._board._nbBLACK
@@ -36,23 +36,27 @@ class heuristicsdef:
                     pass
                 else:
                     result -= self._weight[x][y]
+ #       print("WEIGHT : ", result)
         return result
 
-    #reduce opponent moves possibility
+    # reduce opponent moves possibility
     def mobility_heuristic(self):
         opponentMoves = 0
-        for x in range(0, self._size - 1):
-            for y in range(0, self._size - 1):
-                opponentMoves = self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y)
+        for x in range(self._size):
+            for y in range(self._size):
+                opponentMoves = opponentMoves + self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y)
 
         opponentCorner = self.corner_number()
 
-        result = - (10 * opponentCorner + opponentMoves)
+        result = - (10 * opponentCorner + opponentMoves)    # not sur about that
+#        print("MOBILITY : ", result)
         return result
 
     def diff_heuristic(self):
-        (nb_opponent_moves, nb_player_move) = self._board.get_nb_pieces()
-        return nb_player_move - nb_opponent_moves
+        (nb_opponent_pieces, nb_player_pieces) = self._board.get_nb_pieces()
+        result = nb_player_pieces - nb_opponent_pieces
+        #print("DIFF : ", result)
+        return result
 
     def corner_number(self):
         oColor = self._board._flip(self._color)
@@ -68,13 +72,13 @@ class heuristicsdef:
         return result
 
     def compute_all_heuristics(self):
-        pieces = self._board._nbWHITE + self._board._nbBLACK
-        max_pieces = self._size * self._size
+        (opponent, player) = self._board.get_nb_pieces()
+        pieces = opponent + player
 
-        # use differents heuristics depend of number of move in the game (game time)
+        # use different heuristics depending on game phase
         if pieces <= EARLY_GAME:
-            return 10 * self.weight_heuritic() + self.mobility_heuristic()
+            return self.weight_heuritic() + self.mobility_heuristic()
         elif pieces <= MIDDLE_GAME:
-            return 10 * self.weight_heuritic() + self.mobility_heuristic()  ##+ others
+            return self.weight_heuritic() + 10*self.mobility_heuristic()  ##+ others
         else:
-            return self.weight_heuritic() + self.mobility_heuristic() + self.diff_heuristic()
+            return self.weight_heuritic() + 15*self.mobility_heuristic() + 200*self.diff_heuristic()

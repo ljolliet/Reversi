@@ -3,9 +3,8 @@
 ## Random ideas :
 ### Heuristic
 - [x] basic weights
-- [ ] check if in corners (best possible move)
-- [ ] corner closeness
-- [ ] "mobility" // Work for current player
+- [ ] corners
+- [x] "mobility"
 - [ ] "stability"
 - [ ] create start lib
 - [ ] hashTable that remember some moves calculation
@@ -13,7 +12,7 @@
 - [ ] change depth with game time
  
 ### Algo
-- [ ] minMax
+- [x] minMax
 - [ ] alphaBeta
 - [ ] negamax
  

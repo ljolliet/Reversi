@@ -4,6 +4,7 @@ class Result:
         self.d = 0
         self.l = 0
         self.scores = []
+        self.times = []
 
     def __str__(self):
         value = "w: " + str(self.w) + " d:" + str(self.d) + " l: " + str(self.l)
@@ -43,3 +44,12 @@ class Result:
 
     def addScore(self, a, b):
         self.scores.append((a, b))
+
+    def meanTime(self):
+        result = 0
+        for t in self.times:
+            result += t
+        return result / len(self.scores)
+
+    def addTime(self, a, b):
+        self.times.append((a, b))
