@@ -36,30 +36,33 @@ class heuristicsdef:
         return result
 
     def mobility_heuristic(self):
-        #color = self._mycolor
+        opponentMoves = 0
+        for x in range(0, self._size - 1):
+            for y in range(0, self._size - 1):
+                opponentMoves = self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y)
+
 
         # Verify if it's possible to play in a corner and how many move are possible for the current player
-        playerCorner = self.corner_number()
-        possibleMovePlayer = len(self._board.legal_moves())
+        #playerCorner = self.corner_number()
+        #possibleMovePlayer = len(self._board.legal_moves())
 
-        # opponentCorner = self.corner_number(self._board._flip(color))
-        # possibleMoveOpponen = len(self._board.legal_moves())
-        # print(possibleMoveOpponen)
+        opponentCorner = self.corner_number()
 
         # result = 10*(playerCorner - opponentCorner) + ((possibleMovePlayer - possibleMoveOpponen)/(possibleMovePlayer + possibleMoveOpponen))
 
-        result = 10 * playerCorner + possibleMovePlayer
+        result = - (10 * opponentCorner + opponentMoves)
         return result
 
     def corner_number(self):
+        oColor = self._board._flip(self._color)
         result = 0
-        if self._board._board[0][0] == self._color:
+        if self._board._board[0][0] == oColor:
             result += 1
-        if self._board._board[0][self._size - 1] == self._color:
+        if self._board._board[0][self._size - 1] == oColor:
             result += 1
-        if self._board._board[self._size - 1][0] == self._color:
+        if self._board._board[self._size - 1][0] == oColor:
             result += 1
-        if self._board._board[self._size - 1][self._size - 1] == self._color:
+        if self._board._board[self._size - 1][self._size - 1] == oColor:
             result += 1
         return result
 
@@ -69,10 +72,16 @@ class heuristicsdef:
         EARLY_GAME = max_pieces/3
         MIDDLE_GAME = (max_pieces/3) * 2
 
+        #print("WEIGHT VALUE", self.weight_heuritic)
+        #print("MOBILITY VALUE", self.mobily_heuritic)
+        #print("NB_PIECE VALUE", self.nb_piece_heuristic)
+
         #use differents heuristics depend of number of move in the game (game time)
         if pieces < EARLY_GAME:
-            return self.weight_heuritic() * self.nb_piece_heuristic()
+            return self.weight_heuritic() + self.nb_piece_heuristic()
         elif pieces < MIDDLE_GAME:
-            return self.weight_heuritic() * (0.5 * self.mobility_heuristic()) * (2*self.nb_piece_heuristic())
+            return self.weight_heuritic() + self.mobility_heuristic() + self.nb_piece_heuristic()
         else:
-            return self.weight_heuritic() * self.mobility_heuristic() * (5*self.nb_piece_heuristic())
+            return self.weight_heuritic() + self.mobility_heuristic() + self.nb_piece_heuristic()
+
+
