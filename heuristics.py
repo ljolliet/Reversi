@@ -38,20 +38,14 @@ class heuristicsdef:
                     result -= self._weight[x][y]
         return result
 
+    #reduce opponent moves possibility
     def mobility_heuristic(self):
         opponentMoves = 0
         for x in range(0, self._size - 1):
             for y in range(0, self._size - 1):
                 opponentMoves = self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y)
 
-
-        # Verify if it's possible to play in a corner and how many move are possible for the current player
-        #playerCorner = self.corner_number()
-        #possibleMovePlayer = len(self._board.legal_moves())
-
         opponentCorner = self.corner_number()
-
-        # result = 10*(playerCorner - opponentCorner) + ((possibleMovePlayer - possibleMoveOpponen)/(possibleMovePlayer + possibleMoveOpponen))
 
         result = - (10 * opponentCorner + opponentMoves)
         return result

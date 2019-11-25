@@ -10,6 +10,7 @@
 - [ ] create start lib
 - [ ] hashTable that remember some moves calculation
 - [x] game phases with different heuristic for each
+- [ ] change depth with game time
  
 ### Algo
 - [ ] minMax
