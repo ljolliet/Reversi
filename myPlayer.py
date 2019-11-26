@@ -8,7 +8,8 @@ from playerInterface import *
 import simpleEvaluator
 
 SIZE = 10
-
+MIDDLE_GAME = 75
+END_GAME = 95
 
 # noinspection PyAttributeOutsideInit
 class myPlayer(PlayerInterface):
@@ -57,6 +58,12 @@ class myPlayer(PlayerInterface):
 
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self._board.is_game_over():
+            (opponent, player) = self._board.get_nb_pieces()
+            pieces = opponent + player
+            if pieces > END_GAME:
+                self._depth = 5
+            if pieces > MIDDLE_GAME:
+                self._depth = 4
             return self._heuristic.compute()
         if maximizingPlayer:
             value = -100000000

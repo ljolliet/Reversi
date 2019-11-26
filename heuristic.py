@@ -36,7 +36,7 @@ class heuristic:
                     pass
                 else:
                     result -= self._weight[x][y]
- #       print("WEIGHT : ", result)
+        #print("WEIGHT : ", result)
         return result
 
     # reduce opponent moves possibility
@@ -46,29 +46,39 @@ class heuristic:
             for y in range(self._size):
                 opponentMoves = opponentMoves + self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y)
 
-        opponentCorner = self.corner_number()
+        #opponentCorner = self.corner_number()
 
-        result = - (10 * opponentCorner + opponentMoves)    # not sur about that
-#        print("MOBILITY : ", result)
-        return result
+        #result = - (10 * opponentCorner + opponentMoves)    # not sur about that
+        #print("MOBILITY : ", result)
+        return opponentMoves
 
     def diff_heuristic(self):
         (nb_opponent_pieces, nb_player_pieces) = self._board.get_nb_pieces()
         result = nb_player_pieces - nb_opponent_pieces
         #print("DIFF : ", result)
+
         return result
 
-    def corner_number(self):
+    def corner_heuristic(self):
+        color = self._color
         oColor = self._board._flip(self._color)
         result = 0
+        if self._board._board[0][0] == color:
+            result += 1
+        if self._board._board[0][self._size - 1] == color:
+            result += 1
+        if self._board._board[self._size - 1][0] == color:
+            result += 1
+        if self._board._board[self._size - 1][self._size - 1] == color:
+            result += 1
         if self._board._board[0][0] == oColor:
-            result += 1
+            result -= 1
         if self._board._board[0][self._size - 1] == oColor:
-            result += 1
+            result -= 1
         if self._board._board[self._size - 1][0] == oColor:
-            result += 1
+            result -= 1
         if self._board._board[self._size - 1][self._size - 1] == oColor:
-            result += 1
+            result -= 1
         return result
 
     def compute_all_heuristics(self):
@@ -77,8 +87,26 @@ class heuristic:
 
         # use different heuristics depending on game phase
         if pieces <= EARLY_GAME:
-            return self.weight_heuritic() + self.mobility_heuristic()
+            result = self.weight_heuritic() + self.mobility_heuristic()
+            #print("early game : ", result)
+            return result
         elif pieces <= MIDDLE_GAME:
-            return self.weight_heuritic() + 10*self.mobility_heuristic()  ##+ others
+            result = self.weight_heuritic() + 100*self.mobility_heuristic() + 1000 * self.corner_heuristic() ##+ others
+            #print("mid game : ", result)
+            return result
         else:
-            return self.weight_heuritic() + 15*self.mobility_heuristic() + 200*self.diff_heuristic()
+            result = self.weight_heuritic() + 150*self.mobility_heuristic() + 200*self.diff_heuristic() + 1000 * self.corner_heuristic()
+            #print("late game : ", result)
+            return result
+
+    def early_game_heuristics(self):
+        return self.weight_heuritic() + self.mobility_heuristic()
+
+    def middle_game_heuristics(self):
+        return self.weight_heuritic() + 100*self.mobility_heuristic() + 1000 * self.corner_heuristic()
+
+    def late_game_heuristics(self):
+        return self.weight_heuritic() + 150 * self.mobility_heuristic() + 200 * self.diff_heuristic() + 1000 * self.corner_heuristic()
+
+    def end_game_heuristics(self):
+        return self.diff_heuristic()
