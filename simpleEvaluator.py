@@ -24,4 +24,3 @@ class simpleEvaluator(heuristicEvaluatorInterface):
             return self._heuristic.late_game_heuristics()
         else:
             return self._heuristic.end_game_heuristics()
-        #return self._heuristic.compute_all_heuristics()

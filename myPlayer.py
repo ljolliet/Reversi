@@ -27,7 +27,7 @@ class myPlayer(PlayerInterface):
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return (-1, -1)
-        move = self.start_minmax(self._depth, True)
+        move = self.start_alphaBeta(self._depth, True)
         print("MOVE ", move)
         self._board.push(move)
         print("I am playing ", move)
@@ -79,6 +79,58 @@ class myPlayer(PlayerInterface):
                 value = min(value, self.minimax(depth - 1, True))
                 self._board.pop()
             return value
+
+    def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
+        if depth == 0 or self._board.is_game_over():
+            (opponent, player) = self._board.get_nb_pieces()
+            pieces = opponent + player
+            if pieces > END_GAME:
+                self._depth = 5
+            if pieces > MIDDLE_GAME:
+                self._depth = 4
+            return self._heuristic.compute()
+        if maximizingPlayer:
+            for m in self._board.legal_moves():
+                self._board.push(m)
+                alpha = max(alpha, self.alphaBeta(depth - 1, False, alpha, beta))
+                self._board.pop()
+                if alpha >= beta:
+                    return beta
+            return alpha
+        else:
+            for m in self._board.legal_moves():
+                self._board.push(m)
+                beta = min(beta, self.alphaBeta(depth - 1, True, alpha, beta))
+                self._board.pop()
+                if alpha >= beta:
+                    return alpha
+            return beta
+
+    def start_alphaBeta(self, depth, maximizingPlayer):
+        if self._board.is_game_over():
+            return
+        best_move = None
+        alpha = -100000000
+        beta = 100000000
+        if maximizingPlayer:
+            best_value = -100000000
+            for m in self._board.legal_moves():
+                self._board.push(m)
+                value = self.alphaBeta(depth - 1, not maximizingPlayer, alpha, beta)
+                if value > best_value:
+                    best_value = value
+                    best_move = m
+                self._board.pop()
+        else:
+            best_value = 100000000
+            for m in self._board.legal_moves():
+                self._board.push(m)
+                value = self.alphaBeta(depth - 1, not maximizingPlayer, alpha, beta)
+                if value < best_value:
+                    best_value = value
+                    best_move = m
+                self._board.pop()
+        return best_move
 
     def start_minmax(self, depth, maximizingPlayer):
         if self._board.is_game_over():

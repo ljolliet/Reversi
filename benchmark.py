@@ -1,7 +1,7 @@
 from testLocalGame import launchLocalGame
 import result
 
-size = 20
+size = 10
 result = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
