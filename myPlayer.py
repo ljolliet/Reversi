@@ -9,7 +9,7 @@ import simpleEvaluator
 
 SIZE = 10
 MIDDLE_GAME = 75
-END_GAME = 95
+END_GAME = 95 #assez rapide avec 5 pour le depth, on  peut peut etre regarder les 7-8 derniers
 
 # noinspection PyAttributeOutsideInit
 class myPlayer(PlayerInterface):
