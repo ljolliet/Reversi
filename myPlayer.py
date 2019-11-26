@@ -9,7 +9,7 @@ import simpleEvaluator
 
 SIZE = 10
 MIDDLE_GAME = 75
-END_GAME = 95 #assez rapide avec 5 pour le depth, on  peut peut etre regarder les 7-8 derniers
+END_GAME = 85
 INF = 1000000
 # noinspection PyAttributeOutsideInit
 class myPlayer(PlayerInterface):
@@ -56,32 +56,14 @@ class myPlayer(PlayerInterface):
     def setHeuristic(self, h):
         self._heuristic = h
 
-    def minimax(self, depth, maximizingPlayer):
-        if depth == 0 or self._board.is_game_over():
-            (opponent, player) = self._board.get_nb_pieces()
-            pieces = opponent + player
-            if pieces > END_GAME:
-                self._depth = 5
-            if pieces > MIDDLE_GAME:
-                self._depth = 4
-            return self._heuristic.compute()
-        if maximizingPlayer:
-            value = -INF
-            for m in self._board.legal_moves():
-                self._board.push(m)
-                value = max(value, self.minimax(depth - 1, False))
-                self._board.pop()
-            return value
-        else:
-            value = INF
-            for m in self._board.legal_moves():
-                self._board.push(m)
-                value = min(value, self.minimax(depth - 1, True))
-                self._board.pop()
-            return value
-
     def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or self._board.is_game_over():
+            """(opponent, player) = self._board.get_nb_pieces()
+            pieces = opponent + player
+            if pieces > END_GAME:
+                self._depth = 15
+            if pieces > MIDDLE_GAME:
+                self._depth = 8"""
             return self._heuristic.compute()
         if maximizingPlayer:
             value = -INF
@@ -126,6 +108,31 @@ class myPlayer(PlayerInterface):
                     best_move = m
                 self._board.pop()
         return best_move
+
+
+    def minimax(self, depth, maximizingPlayer):
+        if depth == 0 or self._board.is_game_over():
+            """(opponent, player) = self._board.get_nb_pieces()
+            pieces = opponent + player
+            if pieces > END_GAME:
+                self._depth = 5
+            if pieces > MIDDLE_GAME:
+                self._depth = 4"""
+            return self._heuristic.compute()
+        if maximizingPlayer:
+            value = -INF
+            for m in self._board.legal_moves():
+                self._board.push(m)
+                value = max(value, self.minimax(depth - 1, False))
+                self._board.pop()
+            return value
+        else:
+            value = INF
+            for m in self._board.legal_moves():
+                self._board.push(m)
+                value = min(value, self.minimax(depth - 1, True))
+                self._board.pop()
+            return value
 
     def start_minmax(self, depth, maximizingPlayer):
         if self._board.is_game_over():

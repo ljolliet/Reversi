@@ -9,12 +9,12 @@ class heuristic:
         self._weight = [
             [200, -100, 100, 50, 50, 50, 50, 100, -100, 200],
             [-100, -200, -50, -50, -50, -50, - 50, -50, -200, -100],
-            [100, -50, 100, 0, 0, 0, 0, 100, -50, 100],
+            [100, -50, 100, 0, 20, 20, 0, 100, -50, 100],
             [50, -50, 0, 0, 0, 0, 0, 0, -50, 50],
+            [50, -50, 20, 0, 0, 0, 0, 20, -50, 50],
+            [50, -50, 20, 0, 0, 0, 0, 20, -50, 50],
             [50, -50, 0, 0, 0, 0, 0, 0, -50, 50],
-            [50, -50, 0, 0, 0, 0, 0, 0, -50, 50],
-            [50, -50, 0, 0, 0, 0, 0, 0, -50, 50],
-            [100, -50, 100, 0, 0, 0, 0, 100, -50, 100],
+            [100, -50, 100, 20, 20, 0, 0, 100, -50, 100],
             [-100, -200, -50, -50, -50, -50, - 50, -50, -200, -100],
             [200, -100, 100, 50, 50, 50, 50, 100, -100, 200],
         ]
@@ -51,7 +51,8 @@ class heuristic:
         opponentMoves = 0
         for x in range(self._size):
             for y in range(self._size):
-                opponentMoves = opponentMoves + self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y)
+                if self._board.lazyTest_ValidMove(self._board._flip(self._color), x, y):
+                    opponentMoves = opponentMoves + 1
 
         # opponentCorner = self.corner_number()
 
@@ -101,22 +102,28 @@ class heuristic:
             return result
 
     def early_game_heuristics(self):
-        weight = self.weight_heuritic()
+        weight = 2 * self.weight_heuritic()
         mobility = 10 * self.mobility_heuristic()
         corner = 2000 * self.corner_heuristic()
+
+        #print("early game :\nweight : ", weight, " mobility : ", mobility, "corner : ", corner)
         return weight + mobility + corner
 
     def middle_game_heuristics(self):
-        weight = self.weight_heuritic()
+        weight = 2 * self.weight_heuritic()
         mobility = 20 * self.mobility_heuristic()
         corner = 2000 * self.corner_heuristic()
+
+        #print("middle game :\nweight : ", weight, " mobility : ", mobility, "corner : ", corner)
         return weight + mobility + corner
 
     def late_game_heuristics(self):
-        weight = self.weight_heuritic()
-        mobility = 150 * self.mobility_heuristic()
-        diff = 200 * self.diff_heuristic()
+        weight = 4 * self.weight_heuritic()
+        mobility = 100 * self.mobility_heuristic()
+        diff = 20 * self.diff_heuristic()
         corner = 2000 * self.corner_heuristic()
+
+        #print("late game :\nweight : ", weight, " mobility : ", mobility, "diff : ", diff, "corner : ", corner)
         return weight + mobility + diff + corner
 
     def end_game_heuristics(self):
