@@ -10,7 +10,7 @@ import simpleEvaluator
 SIZE = 10
 MIDDLE_GAME = 75
 END_GAME = 95 #assez rapide avec 5 pour le depth, on  peut peut etre regarder les 7-8 derniers
-
+INF = 1000000
 # noinspection PyAttributeOutsideInit
 class myPlayer(PlayerInterface):
 
@@ -66,14 +66,14 @@ class myPlayer(PlayerInterface):
                 self._depth = 4
             return self._heuristic.compute()
         if maximizingPlayer:
-            value = -100000000
+            value = -INF
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = max(value, self.minimax(depth - 1, False))
                 self._board.pop()
             return value
         else:
-            value = 100000000
+            value = INF
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = min(value, self.minimax(depth - 1, True))
@@ -82,50 +82,45 @@ class myPlayer(PlayerInterface):
 
     def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or self._board.is_game_over():
-            (opponent, player) = self._board.get_nb_pieces()
-            pieces = opponent + player
-            if pieces > END_GAME:
-                self._depth = 5
-            if pieces > MIDDLE_GAME:
-                self._depth = 4
             return self._heuristic.compute()
         if maximizingPlayer:
+            value = -INF
             for m in self._board.legal_moves():
                 self._board.push(m)
-                alpha = max(alpha, self.alphaBeta(depth - 1, False, alpha, beta))
+                value = max(value, self.alphaBeta(depth - 1, False, alpha, beta))
+                alpha = max(alpha, value)
                 self._board.pop()
                 if alpha >= beta:
-                    return beta
-            return alpha
+                    break
         else:
+            value = INF
             for m in self._board.legal_moves():
                 self._board.push(m)
-                beta = min(beta, self.alphaBeta(depth - 1, True, alpha, beta))
+                value = min(value, self.alphaBeta(depth - 1, True, alpha, beta))
+                beta = min(beta, value)
                 self._board.pop()
                 if alpha >= beta:
-                    return alpha
-            return beta
+                    break
+        return beta
 
     def start_alphaBeta(self, depth, maximizingPlayer):
         if self._board.is_game_over():
             return
         best_move = None
-        alpha = -100000000
-        beta = 100000000
         if maximizingPlayer:
-            best_value = -100000000
+            best_value = -INF
             for m in self._board.legal_moves():
                 self._board.push(m)
-                value = self.alphaBeta(depth - 1, not maximizingPlayer, alpha, beta)
+                value = self.alphaBeta(depth - 1, False, -INF, INF)
                 if value > best_value:
                     best_value = value
                     best_move = m
                 self._board.pop()
         else:
-            best_value = 100000000
+            best_value = INF
             for m in self._board.legal_moves():
                 self._board.push(m)
-                value = self.alphaBeta(depth - 1, not maximizingPlayer, alpha, beta)
+                value = self.alphaBeta(depth - 1, True, -INF, INF)
                 if value < best_value:
                     best_value = value
                     best_move = m
@@ -137,7 +132,7 @@ class myPlayer(PlayerInterface):
             return
         best_move = None
         if maximizingPlayer:
-            best_value = -100000000
+            best_value = -INF
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = self.minimax(depth - 1, not maximizingPlayer)
@@ -146,7 +141,7 @@ class myPlayer(PlayerInterface):
                     best_move = m
                 self._board.pop()
         else:
-            best_value = 100000000
+            best_value = INF
             for m in self._board.legal_moves():
                 self._board.push(m)
                 value = self.minimax(depth - 1, not maximizingPlayer)

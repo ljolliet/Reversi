@@ -57,7 +57,7 @@ class heuristic:
 
         # result = - (10 * opponentCorner + opponentMoves)    # not sur about that
         #        print("MOBILITY : ", opponentMoves)
-        return opponentMoves
+        return -opponentMoves
 
     def diff_heuristic(self):
         (nb_opponent_pieces, nb_player_pieces) = self._board.get_nb_pieces()
