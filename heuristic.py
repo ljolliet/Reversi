@@ -106,7 +106,7 @@ class heuristic:
         mobility = 10 * self.mobility_heuristic()
         corner = 2000 * self.corner_heuristic()
 
-        #print("early game :\nweight : ", weight, " mobility : ", mobility, "corner : ", corner)
+        # print("early game :\nweight : ", weight, " mobility : ", mobility, "corner : ", corner)
         return weight + mobility + corner
 
     def middle_game_heuristics(self):
@@ -114,7 +114,7 @@ class heuristic:
         mobility = 20 * self.mobility_heuristic()
         corner = 2000 * self.corner_heuristic()
 
-        #print("middle game :\nweight : ", weight, " mobility : ", mobility, "corner : ", corner)
+        # print("middle game :\nweight : ", weight, " mobility : ", mobility, "corner : ", corner)
         return weight + mobility + corner
 
     def late_game_heuristics(self):
@@ -123,8 +123,45 @@ class heuristic:
         diff = 20 * self.diff_heuristic()
         corner = 2000 * self.corner_heuristic()
 
-        #print("late game :\nweight : ", weight, " mobility : ", mobility, "diff : ", diff, "corner : ", corner)
+        # print("late game :\nweight : ", weight, " mobility : ", mobility, "diff : ", diff, "corner : ", corner)
         return weight + mobility + diff + corner
 
     def end_game_heuristics(self):
         return self.diff_heuristic()
+
+    def diff_v2(self):
+        (nb_opponent_pieces, nb_player_pieces) = self._board.get_nb_pieces()
+        return 100 * (nb_player_pieces - nb_opponent_pieces) / (nb_player_pieces + nb_opponent_pieces)
+
+    def mobility_v2(self):
+        opponentMoves = 0
+        myMoves = len(self._board.legal_moves())
+        for x in range(self._size):
+            for y in range(self._size):
+                if self._board.is_valid_move(self._board._flip(self._color), x, y):
+                    opponentMoves += + 1
+
+        return 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
+
+    def corners_v2(self):
+        oColor = self._board._flip(self._color)
+        myCorners = opponnentCorners = 0
+        for x in range(len(self._corners)):
+            for y in range(2):
+                if self._board._board[x][y] == self._color:
+                    myCorners += 1
+                elif self._board._board[x][y] == oColor:
+                    opponnentCorners += 1
+        return 100 * (myCorners - opponnentCorners) / (myCorners + opponnentCorners + 1)
+
+    def main_h_v2(self):
+        mob = self.mobility_v2()
+        diff = self.diff_v2()
+        corners = self.corners_v2()
+        return 2 * mob + diff + 1000 * corners
+
+    def parity(self):
+        (opponent, player) = self._board.get_nb_pieces()
+        pieces = opponent + player
+        rest = self._size * self._size - pieces
+        return rest % 2 == 0 and -1 or 1

@@ -6,6 +6,7 @@ import heuristic
 from random import randint
 from playerInterface import *
 import simpleEvaluator
+import secondEvaluator
 
 SIZE = 10
 MIDDLE_GAME = 75
@@ -27,7 +28,7 @@ class myPlayer(PlayerInterface):
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return (-1, -1)
-        move = self.start_alphaBeta(self._depth, True)
+        move = self.start_alphaBeta()
         print("MOVE ", move)
         self._board.push(move)
         print("I am playing ", move)
@@ -58,12 +59,12 @@ class myPlayer(PlayerInterface):
 
     def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or self._board.is_game_over():
-            """(opponent, player) = self._board.get_nb_pieces()
+            (opponent, player) = self._board.get_nb_pieces()
             pieces = opponent + player
             if pieces > END_GAME:
                 self._depth = 15
             if pieces > MIDDLE_GAME:
-                self._depth = 8"""
+                self._depth = 8
             return self._heuristic.compute()
         if maximizingPlayer:
             value = -INF
@@ -85,28 +86,18 @@ class myPlayer(PlayerInterface):
                     break
         return beta
 
-    def start_alphaBeta(self, depth, maximizingPlayer):
+    def start_alphaBeta(self,):
         if self._board.is_game_over():
             return
         best_move = None
-        if maximizingPlayer:
-            best_value = -INF
-            for m in self._board.legal_moves():
-                self._board.push(m)
-                value = self.alphaBeta(depth - 1, False, -INF, INF)
-                if value > best_value:
-                    best_value = value
-                    best_move = m
-                self._board.pop()
-        else:
-            best_value = INF
-            for m in self._board.legal_moves():
-                self._board.push(m)
-                value = self.alphaBeta(depth - 1, True, -INF, INF)
-                if value < best_value:
-                    best_value = value
-                    best_move = m
-                self._board.pop()
+        best_value = -INF
+        for m in self._board.legal_moves():
+            self._board.push(m)
+            value = self.alphaBeta(self._depth - 1, False, -INF, INF)
+            if value > best_value:
+                best_value = value
+                best_move = m
+            self._board.pop()
         return best_move
 
 
