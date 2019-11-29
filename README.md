@@ -15,6 +15,7 @@
 - [x] minMax
 - [ ] alphaBeta
 - [ ] negamax
+- [ ] use threads
  
 ## Biblio
 - http://play-othello.appspot.com/files/Othello.pdf
