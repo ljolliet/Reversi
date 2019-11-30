@@ -3,7 +3,7 @@
 ## Random ideas :
 ### Heuristic
 - [x] basic weights
-- [ ] corners
+- [x] corners
 - [x] "mobility"
 - [ ] "stability"
 - [ ] create start lib
@@ -24,3 +24,4 @@
 - https://kartikkukreja.wordpress.com/2013/03/30/heuristic-function-for-reversiothello/
 - https://github.com/arminkz/Reversi/tree/master/src/player/ai
 - https://studylibfr.com/doc/6062702/algorithme-minmax-%E2%80%93-%C3%A9lagage-alphabeta-1-introduction-2-mi... page 8
+- https://digitalcommons.lsu.edu/cgi/viewcontent.cgi?article=1766&context=gradschool_theses pages 18-20

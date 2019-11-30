@@ -146,6 +146,12 @@ class heuristic:
                     myMoves += 1
 
         result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
+        #idée : si le nombre d'opponentMoves est de 0, favoriser grandement le coup
+
+        #if opponentMoves != 0:
+            #result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
+        #else:
+            #result = 150 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
         return result
 
     def corners_v2(self):
