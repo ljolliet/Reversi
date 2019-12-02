@@ -29,3 +29,6 @@ class secondEvaluator(heuristicEvaluatorInterface):
 
     def setColor(self, color):
         self._heuristic._color = color
+
+    def getCorners(self):
+        return self._heuristic._corners

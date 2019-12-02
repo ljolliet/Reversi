@@ -1,6 +1,7 @@
 import Reversi
 import myPlayer
 import randomPlayer
+import killerPlayer
 import time
 
 
@@ -9,7 +10,7 @@ def launchLocalGame(result=None):
     b = Reversi.Board(10)
 
     players = []
-    player1 = myPlayer.myPlayer()
+    player1 = killerPlayer.myPlayer()
     ##player1.setHeuristic(simpleEvaluator.simpleEvaluator())
     player1.newGame(b._BLACK)
     players.append(player1)

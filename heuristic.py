@@ -145,12 +145,12 @@ class heuristic:
                     myMoves += 1
 
         result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
-        #idée : si le nombre d'opponentMoves est de 0, favoriser grandement le coup
+        # idée : si le nombre d'opponentMoves est de 0, favoriser grandement le coup
 
-        #if opponentMoves != 0:
-            #result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
-        #else:
-            #result = 150 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
+        # if opponentMoves != 0:
+        # result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
+        # else:
+        # result = 150 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
         return result
 
     def corners_v2(self):
@@ -165,15 +165,11 @@ class heuristic:
         result = 100 * (myCorners - opponnentCorners) / (myCorners + opponnentCorners + 1)
         return result
 
-    def main_h_v2(self):
-        mob = self.mobility_v2()
-        diff = self.diff_v2()
-        corners = self.corners_v2()
-        return 2 * mob + diff + 1000 * corners
-
     def parity(self):
         (opponent, player) = self._board.get_nb_pieces()
         pieces = opponent + player
         rest = self._size * self._size - pieces
         result = rest % 2 == 0 and -1 or 1
         return result
+
+
