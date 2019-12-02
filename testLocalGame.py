@@ -2,8 +2,6 @@ import Reversi
 import myPlayer
 import randomPlayer
 import time
-from io import StringIO
-import sys
 
 
 
@@ -51,16 +49,15 @@ def launchLocalGame(result=None):
 
         print(b)
 
-    print("The game is over")
-    print(b)
+    print("\nThe game is over")
     (nbwhites, nbblacks) = b.get_nb_pieces()
     print("Time:", totalTime)
     print("Winner: ", end="")
     if nbwhites > nbblacks:
-        print("WHITE")
+        print(player2.getPlayerName())
         if result is not None: result.addLose()
     elif nbblacks > nbwhites:
-        print("BLACK")
+        print(player1.getPlayerName())
         if result is not None: result.addWin()
     else:
         print("DEUCE")

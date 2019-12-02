@@ -136,7 +136,6 @@ class heuristic:
 
     def mobility_v2(self):
         opponentMoves = 0
-        other = 0
         myMoves = 0
         for x in range(self._size):
             for y in range(self._size):

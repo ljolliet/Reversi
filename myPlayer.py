@@ -24,7 +24,7 @@ class myPlayer(PlayerInterface):
         self._depth = 3
 
     def getPlayerName(self):
-        return "Random Player"
+        return "Louis Player"
 
     def getPlayerMove(self):
         if self._board.is_game_over():

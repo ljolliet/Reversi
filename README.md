@@ -4,8 +4,10 @@
 ### Heuristic
 - [x] basic weights
 - [x] corners
-- [x] "mobility"
-- [ ] "stability"
+- [x] mobility
+- [ ] stability
+- [x] parity
+- [x] diff
 - [ ] create start lib
 - [ ] hashTable that remember some moves calculation
 - [x] game phases with different heuristic for each
@@ -13,7 +15,7 @@
  
 ### Algo
 - [x] minMax
-- [ ] alphaBeta
+- [x] alphaBeta
 - [ ] negamax
 - [ ] use threads
  
