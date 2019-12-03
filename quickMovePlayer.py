@@ -24,7 +24,7 @@ class myPlayer(PlayerInterface):
         self._depth = 3
 
     def getPlayerName(self):
-        return "Louis Player"
+        return "Quick Player"
 
     def getPlayerMove(self):
         if self._board.is_game_over():
@@ -106,9 +106,22 @@ class myPlayer(PlayerInterface):
         print('\x1b[6;30;42m' + 'Best move : ' + str(best_value) + '\x1b[0m')
         return best_move
 
-    def quickMove(self):
+    def takeCorner(self):
         for x in range(len(self._heuristic.getCorners())):
             for y in range(2):
                 if self._board.is_valid_move(self._mycolor, x, y):
                     return [self._mycolor, x, y]
         return None
+
+    def blockPlayer(self):
+        oColor = self._board._flip(self._mycolor)
+        #return not self._board.at_least_one_legal_move(oColor)
+        return False
+
+
+    def quickMove(self):
+        quickMove = self.blockPlayer()
+        if quickMove is not False:
+            print('\x1b[6;30;41m' + 'BLOCK : ' + '\x1b[0m')
+            return quickMove
+        return self.takeCorner()

@@ -1,7 +1,7 @@
 from testLocalGame import launchLocalGame
 import result
 
-size = 20
+size = 10
 result = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
@@ -10,3 +10,4 @@ for i in range(size):
 print("----- end ------")
 
 print("Results on a ", size, " Benchmark : \n", str(result))
+
