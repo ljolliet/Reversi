@@ -2,7 +2,7 @@ from testLocalGame import launchLocalGame
 import result
 import myPlayer
 import quickMovePlayer
-import lordinateursupreme
+#import lordinateursupreme
 
 size = 2
 first = result.Result()
@@ -10,7 +10,7 @@ second = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
     player1 = quickMovePlayer.myPlayer()
-    player2 = lordinateursupreme.myPlayer()
+    player2 = myPlayer.myPlayer()
     print('\x1b[6;30;41m' + "################################### GAME NUMBER", str(i),
           "###################################" + '\x1b[0m')
     if i < size / 2:

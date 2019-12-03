@@ -211,9 +211,9 @@ class Board:
 
     def _piece2str(self, c):
         if c == self._WHITE:
-            return '\x1b[6;30;47m' + 'O' + '\x1b[0m'
-        elif c == self._BLACK:
             return '\x1b[0;37;40m' + 'O' + '\x1b[0m'
+        elif c == self._BLACK:
+            return '\x1b[0;30;47m' + 'O' + '\x1b[0m'
         else:
             return '.'
 
