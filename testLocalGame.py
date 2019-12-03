@@ -5,16 +5,15 @@ import quickMovePlayer
 import time
 
 
-
 def launchLocalGame(result=None, player1=quickMovePlayer.myPlayer(), player2=myPlayer.myPlayer()):
     b = Reversi.Board(10)
 
     players = []
-    #player1 = quickMovePlayer.myPlayer()
+    # player1 = quickMovePlayer.myPlayer()
     ##player1.setHeuristic(simpleEvaluator.simpleEvaluator())
     player1.newGame(b._BLACK)
     players.append(player1)
-    #player2 = myPlayer.myPlayer()
+    # player2 = myPlayer.myPlayer()
     player2.newGame(b._WHITE)
     players.append(player2)
 
@@ -65,5 +64,4 @@ def launchLocalGame(result=None, player1=quickMovePlayer.myPlayer(), player2=myP
         if result is not None: result.addDeuce()
     if result is not None: result.addScore(nbblacks, nbwhites)
 
-
-launchLocalGame()
+# launchLocalGame()

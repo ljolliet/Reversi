@@ -17,6 +17,7 @@ class Result:
         self.w += other.w
         self.d += other.d
         self.l += other.l
+        self.addScores(other)
 
     def addWin(self):
         self.w += 1

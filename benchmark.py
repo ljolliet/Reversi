@@ -10,8 +10,8 @@ first = result.Result()
 second = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
-    player1 = randomPlayer.randomPlayer()
-    player2 = randomPlayer.randomPlayer()
+    player1 = myPlayer.myPlayer()
+    player2 = quickMovePlayer.myPlayer()
     print('\x1b[6;30;41m' + "################################### GAME NUMBER", str(i),
           "###################################" + '\x1b[0m')
     if i < size / 2:
@@ -28,6 +28,6 @@ print(player2.getPlayerName(), " starting")
 print("Second oppositions :\n", str(second))
 print("\nResume : ", player1.getPlayerName())
 reverse = second.reverse()
-first.addScores(reverse)
+first.add(reverse)
 print(str(first))
 
