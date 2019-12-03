@@ -9,8 +9,8 @@ import simpleEvaluator
 import secondEvaluator
 
 SIZE = 10
-MIDDLE_GAME = 75
-END_GAME = 85
+EARLY_GAME = SIZE*SIZE/3
+MIDDLE_GAME = SIZE*SIZE * 2/3
 INF = 1000000
 
 
@@ -27,12 +27,13 @@ class myPlayer(PlayerInterface):
         return "Quick Player"
 
     def getPlayerMove(self):
+        #self.updateDepth()
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return (-1, -1)
 
         if self.quickMove() is not None:
-            print('\x1b[6;30;41m' + 'Quick move : ' +'\x1b[0m')
+            print('\x1b[6;30;41m' + 'Quick move : ' + '\x1b[0m')
             move = self.quickMove()
         else:
             move = self.start_alphaBeta()
@@ -115,9 +116,8 @@ class myPlayer(PlayerInterface):
 
     def blockPlayer(self):
         oColor = self._board._flip(self._mycolor)
-        #return not self._board.at_least_one_legal_move(oColor)
+        # return not self._board.at_least_one_legal_move(oColor)
         return False
-
 
     def quickMove(self):
         quickMove = self.blockPlayer()
@@ -125,3 +125,13 @@ class myPlayer(PlayerInterface):
             print('\x1b[6;30;41m' + 'BLOCK : ' + '\x1b[0m')
             return quickMove
         return self.takeCorner()
+
+    def updateDepth(self):
+        (opponent, player) = self._board.get_nb_pieces()
+        pieces = opponent + player
+        if pieces > EARLY_GAME and pieces < MIDDLE_GAME:
+            print('\x1b[6;30;43m' + 'DEPTH 4' +'\x1b[0m')
+            self._depth = 4
+        elif pieces > MIDDLE_GAME:
+            print('\x1b[6;30;43m' + 'DEPTH 5' +'\x1b[0m')
+            self._depth = 5
