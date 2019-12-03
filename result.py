@@ -63,3 +63,8 @@ class Result:
         for s in self.scores:
             r.addScore(s[1], s[0])
         return r
+
+    def addScores(self, other):
+        for s in other.scores:
+            self.addScore(s[0], s[1])
+        pass
