@@ -30,10 +30,13 @@ class myPlayer(PlayerInterface):
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return (-1, -1)
-
-        if self.quickMove() is not None:
+        tmp_move_corner = self.quickMove()
+        tmp_move_kill = self.killMove()
+        if tmp_move_corner is not None:
             print('\x1b[6;30;41m' + 'Quick move : ' +'\x1b[0m')
-            move = self.quickMove()
+            move = tmp_move_corner
+        elif tmp_move_kill is not None:
+            move = tmp_move_corner
         else:
             move = self.start_alphaBeta()
         print("MOVE ", move)
@@ -111,4 +114,16 @@ class myPlayer(PlayerInterface):
             for y in range(2):
                 if self._board.is_valid_move(self._mycolor, x, y):
                     return [self._mycolor, x, y]
+        return None
+
+    def killMove(self):
+        for x in range(self._board.get_board_size()):
+            for y in range(self._board.get_board_size()):
+                if self._board.is_valid_move(self._mycolor, x, y):
+                    self._board.push([self._mycolor, x, y])
+                    if len(self._board.legal_moves()) == 0:
+                        self._board.pop()
+                        return [self._mycolor, x, y]
+                    else:
+                        self._board.pop()
         return None

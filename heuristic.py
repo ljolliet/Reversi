@@ -141,7 +141,7 @@ class heuristic:
             for y in range(self._size):
                 if self._board.is_valid_move(self._board._flip(self._color), x, y):
                     opponentMoves += 1
-                elif self._board.is_valid_move(self._color, x, y):
+                if self._board.is_valid_move(self._color, x, y):
                     myMoves += 1
 
         result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
@@ -171,5 +171,8 @@ class heuristic:
         rest = self._size * self._size - pieces
         result = rest % 2 == 0 and -1 or 1
         return result
+
+
+
 
 
