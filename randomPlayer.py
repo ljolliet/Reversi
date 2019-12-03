@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 
-import time
 import Reversi
 from random import randint
 from playerInterface import *
 
 
-class randomPlayer(PlayerInterface):
+class myPlayer(PlayerInterface):
 
     def __init__(self):
         self._board = Reversi.Board(10)

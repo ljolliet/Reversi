@@ -37,7 +37,8 @@ class myPlayer(PlayerInterface):
             print('\x1b[6;30;41m' + 'Quick move : ' +'\x1b[0m')
             move = tmp_move_corner
         elif tmp_move_kill is not None:
-            move = tmp_move_corner
+            print('\x1b[6;30;41m' + 'Block move : ' +'\x1b[0m')
+            move = tmp_move_kill
         else:
             move = self.start_alphaBeta()
         print("MOVE ", move)
@@ -111,10 +112,9 @@ class myPlayer(PlayerInterface):
         return best_move
 
     def takeCorner(self):
-        for x in range(len(self._heuristic.getCorners())):
-            for y in range(2):
-                if self._board.is_valid_move(self._mycolor, x, y):
-                    return [self._mycolor, x, y]
+        for x, y in self._heuristic.getCorners():
+            if self._board.is_valid_move(self._mycolor, x, y):
+                return [self._mycolor, x, y]
         return None
 
 

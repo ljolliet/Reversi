@@ -72,12 +72,11 @@ class heuristic:
         oColor = self._board._flip(self._color)
         result = 0
 
-        for x in range(len(self._corners)):
-            for y in range(2):
-                if self._board._board[x][y] == color:
-                    result += 1
-                elif self._board._board[x][y] == oColor:
-                    result -= 1
+        for x, y in self._corners:
+            if self._board._board[x][y] == color:
+                result += 1
+            elif self._board._board[x][y] == oColor:
+                result -= 1
         # print("result = ", result)
         return result
 
@@ -162,12 +161,11 @@ class heuristic:
     def corners_v2(self):
         oColor = self._board._flip(self._color)
         myCorners = opponnentCorners = 0
-        for x in range(len(self._corners)):
-            for y in range(2):
-                if self._board._board[x][y] == self._color:
-                    myCorners += 1
-                elif self._board._board[x][y] == oColor:
-                    opponnentCorners += 1
+        for x, y in self._corners:
+            if self._board._board[x][y] == self._color:
+                myCorners += 1
+            elif self._board._board[x][y] == oColor:
+                opponnentCorners += 1
         result = 100 * (myCorners - opponnentCorners) / (myCorners + opponnentCorners + 1)
         return result
 
