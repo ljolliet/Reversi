@@ -130,7 +130,13 @@ class heuristic:
         return self.diff_heuristic()
 
     def diff_v2(self):
-        (nb_opponent_pieces, nb_player_pieces) = self._board.get_nb_pieces()
+        (whites, blacks) = self._board.get_nb_pieces()
+        if self._color == self._board._BLACK:
+            nb_player_pieces = blacks
+            nb_opponent_pieces = whites
+        else:
+            nb_player_pieces = whites
+            nb_opponent_pieces = blacks
         result = 100 * (nb_player_pieces - nb_opponent_pieces) / (nb_player_pieces + nb_opponent_pieces)
         return result
 
@@ -172,7 +178,6 @@ class heuristic:
         result = rest % 2 == 0 and -1 or 1
         return result
 
-
-
-
-
+    def parity_v2(self):
+        (opponent, player) = self._board.get_nb_pieces()
+        return 100 * (player - opponent) / (player + opponent)

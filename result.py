@@ -5,6 +5,7 @@ class Result:
         self.l = 0
         self.scores = []
         self.times = []
+        self._quickmoves = 0
 
     def __str__(self):
         value = "w: " + str(self.w) + " d:" + str(self.d) + " l: " + str(self.l)
@@ -53,3 +54,12 @@ class Result:
 
     def addTime(self, a, b):
         self.times.append((a, b))
+
+    def reverse(self):
+        r = Result()
+        r.w = self.l
+        r.l = self.w
+        r.d = self.d
+        for s in self.scores:
+            r.addScore(s[1], s[0])
+        return r
