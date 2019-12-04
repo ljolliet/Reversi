@@ -7,6 +7,7 @@ from random import randint
 from playerInterface import *
 import simpleEvaluator
 import secondEvaluator
+import seattleEvaluator
 
 SIZE = 10
 EARLY_GAME = SIZE*SIZE/3
@@ -20,7 +21,7 @@ class myPlayer(PlayerInterface):
     def __init__(self):
         self._board = Reversi.Board(SIZE)
         self._color = None
-        self._evaluator = secondEvaluator.secondEvaluator(self._board)  # TODO at the end set the heuristic
+        self._heuristic = seattleEvaluator.secondEvaluator(self._board)  # TODO at the end set the heuristic
         self._depth = 3
 
     def getPlayerName(self):
@@ -57,7 +58,7 @@ class myPlayer(PlayerInterface):
 
     def newGame(self, color):
         self._mycolor = color
-        self._evaluator.setColor(color)
+        self._heuristic.setColor(color)
         self._opponent = 1 if color == 2 else 2
 
     def endGame(self, winner):
@@ -67,11 +68,11 @@ class myPlayer(PlayerInterface):
             print("I lost :(!!")
 
     def setHeuristic(self, h):
-        self._evaluator = h
+        self._heuristic = h
 
     def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or self._board.is_game_over():
-            result = self._evaluator.compute()
+            result = self._heuristic.compute()
             return result
         if maximizingPlayer:
             value = -INF
@@ -112,7 +113,7 @@ class myPlayer(PlayerInterface):
         return best_move
 
     def takeCorner(self):
-        for x, y in self._evaluator.getCorners():
+        for x, y in self._heuristic.getCorners():
             if self._board.is_valid_move(self._mycolor, x, y):
                 return [self._mycolor, x, y]
         return None

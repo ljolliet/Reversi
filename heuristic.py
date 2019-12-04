@@ -57,7 +57,8 @@ class heuristic:
         result = 100 * (nb_player_pieces - nb_opponent_pieces) / (nb_player_pieces + nb_opponent_pieces)
         return result
 
-    def mobility_v2(self):
+
+    def mobility_calculation(self):
         opponentMoves = 0
         myMoves = 0
         for x in range(self._size):
@@ -66,7 +67,10 @@ class heuristic:
                     opponentMoves += 1
                 if self._board.is_valid_move(self._color, x, y):
                     myMoves += 1
+        return myMoves, opponentMoves
 
+    def mobility_v2(self):
+        (myMoves, opponentMoves) = self.mobility_calculation()
         result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
         # idée : si le nombre d'opponentMoves est de 0, favoriser grandement le coup
 
@@ -76,7 +80,14 @@ class heuristic:
         # result = 150 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
         return result
 
-    def corners_v2(self):
+    def mobility_v3(self):
+        (myMoves, opponentMoves) = self.mobility_calculation()
+        if myMoves + opponentMoves is not 0:
+            return 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves)
+        else:
+            return 0
+
+    def corners_calculation(self):
         oColor = self._board._flip(self._color)
         myCorners = opponnentCorners = 0
         for x, y in self._corners:
@@ -84,8 +95,19 @@ class heuristic:
                 myCorners += 1
             elif self._board._board[x][y] == oColor:
                 opponnentCorners += 1
+        return myCorners, opponnentCorners
+
+    def corners_v2(self):
+        (myCorners, opponnentCorners) = self.corners_calculation()
         result = 100 * (myCorners - opponnentCorners) / (myCorners + opponnentCorners + 1)
         return result
+
+    def corners_v3(self):
+        (myCorners, opponnentCorners) = self.corners_calculation()
+        if myCorners + opponnentCorners is not 0:
+            return 100 * (myCorners - opponnentCorners) / (myCorners + opponnentCorners)
+        else:
+            return 0
 
     def parity(self):
         (opponent, player) = self._board.get_nb_pieces()
@@ -97,3 +119,12 @@ class heuristic:
     def parity_v2(self):
         (opponent, player) = self._board.get_nb_pieces()
         return 100 * (player - opponent) / (player + opponent)
+
+    def stability(self):
+        myStabiliy = opponnentStability = 0 # TODO
+        if myStability + opponnentStability is not 0:
+            return 100 * (myStability - opponnentStability) / (myStability + opponnentStability)
+        else:
+            return 0
+
+

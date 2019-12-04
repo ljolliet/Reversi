@@ -3,8 +3,7 @@ import result
 import myPlayer
 import quickMovePlayer
 import randomPlayer
-
-import lordinateursupreme
+import seattleEvaluator
 
 size = 4
 assert size % 2 is 0  # size must be an even number ( multiple of 2)
@@ -13,7 +12,8 @@ second = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
     player1 = quickMovePlayer.myPlayer()
-    player2 = lordinateursupreme.myPlayer()
+    #player1._evaluator = seattleEvaluator.seattleEvaluator(player1._board)
+    player2 = randomPlayer.myPlayer()
     print('\x1b[6;30;41m' + "################################### GAME NUMBER", str(i),
           "###################################" + '\x1b[0m')
     if i < size / 2:

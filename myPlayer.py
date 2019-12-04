@@ -20,7 +20,7 @@ class myPlayer(PlayerInterface):
     def __init__(self):
         self._board = Reversi.Board(SIZE)
         self._color = None
-        self._heuristic = secondEvaluator.secondEvaluator(self._board)  # TODO at the end set the heuristic
+        self._evaluator = secondEvaluator.secondEvaluator(self._board)  # TODO at the end set the heuristic
         self._depth = 3
 
     def getPlayerName(self):
@@ -47,7 +47,7 @@ class myPlayer(PlayerInterface):
 
     def newGame(self, color):
         self._mycolor = color
-        self._heuristic.setColor(color)
+        self._evaluator.setColor(color)
         self._opponent = 1 if color == 2 else 2
 
     def endGame(self, winner):
@@ -57,11 +57,11 @@ class myPlayer(PlayerInterface):
             print("I lost :(!!")
 
     def setHeuristic(self, h):
-        self._heuristic = h
+        self._evaluator = h
 
     def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or self._board.is_game_over():
-            result = self._heuristic.compute()
+            result = self._evaluator.compute()
             return result
         if maximizingPlayer:
             value = -INF
@@ -109,7 +109,7 @@ class myPlayer(PlayerInterface):
                 self._depth = 5
             if pieces > MIDDLE_GAME:
                 self._depth = 4"""
-            return self._heuristic.compute()
+            return self._evaluator.compute()
         if maximizingPlayer:
             value = -INF
             for m in self._board.legal_moves():
