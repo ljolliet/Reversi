@@ -36,7 +36,7 @@ class myPlayer(PlayerInterface):
         if tmp_move_corner is not None:
             print('\x1b[6;30;41m' + 'Quick move : ' +'\x1b[0m')
             move = tmp_move_corner
-        elif tmp_move_kill is not None:
+        if tmp_move_kill is not None:
             print('\x1b[6;30;41m' + 'Block move : ' +'\x1b[0m')
             move = tmp_move_kill
         else:

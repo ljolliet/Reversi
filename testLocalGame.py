@@ -64,4 +64,4 @@ def launchLocalGame(result=None, player1=quickMovePlayer.myPlayer(), player2=myP
         if result is not None: result.addDeuce()
     if result is not None: result.addScore(nbblacks, nbwhites)
 
-launchLocalGame()
+#launchLocalGame()
