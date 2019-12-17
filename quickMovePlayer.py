@@ -4,6 +4,8 @@ import time
 import Reversi
 import heuristic
 from random import randint
+
+import openingBook
 from playerInterface import *
 import simpleEvaluator
 import secondEvaluator
@@ -22,6 +24,7 @@ class myPlayer(PlayerInterface):
         self._color = None
         self._evaluator = secondEvaluator.secondEvaluator(self._board)  # TODO at the end set the heuristic
         self._depth = 3
+        self._openingBook = openingBook.openingBook()
 
     def getPlayerName(self):
         return "Quick Player"
@@ -31,16 +34,21 @@ class myPlayer(PlayerInterface):
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return (-1, -1)
-        tmp_move_corner = self.quickMove()
-        tmp_move_kill = self.killMove()
-        if tmp_move_corner is not None:
-            print('\x1b[6;30;41m' + 'Quick move : ' +'\x1b[0m')
-            move = tmp_move_corner
-        if tmp_move_kill is not None:
-            print('\x1b[6;30;41m' + 'Block move : ' +'\x1b[0m')
-            move = tmp_move_kill
+
+        opening_move = self._openingBook.getNextMove()
+        if opening_move is not None:
+            move = opening_move
         else:
-            move = self.start_alphaBeta()
+            tmp_move_corner = self.quickMove()
+            tmp_move_kill = self.killMove()
+            if tmp_move_corner is not None:
+                print('\x1b[6;30;41m' + 'Quick move : ' +'\x1b[0m')
+                move = tmp_move_corner
+            if tmp_move_kill is not None:
+                print('\x1b[6;30;41m' + 'Block move : ' +'\x1b[0m')
+                move = tmp_move_kill
+            else:
+                move = self.start_alphaBeta()
         print("MOVE ", move)
         self._board.push(move)
         print("I am playing ", move)
@@ -116,7 +124,6 @@ class myPlayer(PlayerInterface):
             if self._board.is_valid_move(self._mycolor, x, y):
                 return [self._mycolor, x, y]
         return None
-
 
     def killMove(self):
         for x in range(self._board.get_board_size()):
