@@ -15,6 +15,7 @@ INF = 1000000
 class myPlayer(PlayerInterface):
 
     def __init__(self):
+        self._multiprocessing = False
         self._board = Reversi.Board(SIZE)
         self._color = None
         self._evaluator = myEvaluator.myEvaluator(self._board)
@@ -44,7 +45,10 @@ class myPlayer(PlayerInterface):
                 print('\x1b[6;30;41m' + 'Block move : ' + '\x1b[0m')
                 move = block_move
             else:
-                move = self.start_alphaBeta()
+                if self._multiprocessing:
+                    move = self.start_alphaBeta_MultiProc()
+                else:
+                    move = self.start_alphaBeta()
         print("MOVE ", move)
         self._board.push(move)
         print("I am playing ", move)
@@ -75,88 +79,63 @@ class myPlayer(PlayerInterface):
     def setHeuristic(self, h):
         self._evaluator = h
 
-    def alphaBeta(self, depth, maximizingPlayer, alpha, beta):
-        if depth == 0 or self._board.is_game_over():
+    def alphaBeta(self, board, depth, maximizingPlayer, alpha, beta):
+        if depth == 0 or board.is_game_over():
             result = self._evaluator.compute()
             return result
         if maximizingPlayer:
             value = -INF
-            for m in self._board.legal_moves():
-                self._board.push(m)
-                result = self.alphaBeta(depth - 1, False, alpha, beta)
+            for m in board.legal_moves():
+                board.push(m)
+                result = self.alphaBeta(board, depth - 1, False, alpha, beta)
                 value = max(value, result)
                 alpha = max(alpha, value)
-                self._board.pop()
+                board.pop()
                 if alpha >= beta:
                     break
         else:
             value = INF
-            for m in self._board.legal_moves():
-                self._board.push(m)
-                result = self.alphaBeta(depth - 1, True, alpha, beta)
+            for m in board.legal_moves():
+                board.push(m)
+                result = self.alphaBeta(board, depth - 1, True, alpha, beta)
                 value = min(value, result)
                 beta = min(beta, value)
-                self._board.pop()
+                board.pop()
                 if alpha >= beta:
                     break
         return value
 
-    # def alphaBeta(self, board, depth, maximizingPlayer, alpha, beta):
-    #     if depth == 0 or board.is_game_over():
-    #         result = self._evaluator.compute()
-    #         return result
-    #     if maximizingPlayer:
-    #         value = -INF
-    #         for m in board.legal_moves():
-    #             board.push(m)
-    #             result = self.alphaBeta(board, depth - 1, False, alpha, beta)
-    #             value = max(value, result)
-    #             alpha = max(alpha, value)
-    #             board.pop()
-    #             if alpha >= beta:
-    #                 break
-    #     else:
-    #         value = INF
-    #         for m in board.legal_moves():
-    #             board.push(m)
-    #             result = self.alphaBeta(board, depth - 1, True, alpha, beta)
-    #             value = min(value, result)
-    #             beta = min(beta, value)
-    #             board.pop()
-    #             if alpha >= beta:
-    #                 break
-    #     return value
-    #
-    # def start_alphaBeta(self):
-    #     if self._board.is_game_over():
-    #         return
-    #     core_nb = multiprocessing.cpu_count()
-    #     p = multiprocessing.Pool(processes=int(core_nb))
-    #     best_move = None
-    #     best_value = -INF
-    #     boards = []
-    #     moves = []
-    #     for m in self._board.legal_moves():
-    #         board = copy.deepcopy(self._board)
-    #         board.push(m)
-    #         boards.append(board)
-    #         moves.append(moves)
-    #
-    #     values = p.starmap(self.alphaBeta, zip(boards, repeat(self._depth - 1), repeat(False), repeat(-INF), repeat(+INF)))
-    #     p.close()
-    #     p.join()
-    #
-    #     for b in boards:
-    #         b.pop()
-    #     results = zip(values, moves)
-    #     for value, move in results:
-    #         if value > best_value:
-    #             best_value = value
-    #             best_move = move
-    #     self._board.pop()
-    #
-    #     print('\x1b[6;30;42m' + 'Best move : ' + str(best_value) + '\x1b[0m')
-    #     return best_move
+
+    def start_alphaBeta_MultiProc(self):
+        if self._board.is_game_over():
+            return
+        core_nb = multiprocessing.cpu_count()
+        p = multiprocessing.Pool(processes=int(core_nb))
+        best_move = None
+        best_value = -INF
+        boards = []
+        moves = []
+        for m in self._board.legal_moves():
+            board = copy.deepcopy(self._board)
+            board.push(m)
+            boards.append(board)
+            moves.append(moves)
+
+        values = p.starmap(self.alphaBeta, zip(boards, repeat(self._depth - 1), repeat(False), repeat(-INF), repeat(+INF)))
+        p.close()
+        p.join()
+
+        for b in boards:
+            b.pop()
+        results = zip(values, moves)
+        for value, move in results:
+            if value > best_value:
+                best_value = value
+                best_move = move
+        self._board.pop()
+
+        print('\x1b[6;30;42m' + 'Best move : ' + str(best_value) + '\x1b[0m')
+        return best_move
 
     def start_alphaBeta(self):
         if self._board.is_game_over():
@@ -166,7 +145,7 @@ class myPlayer(PlayerInterface):
         boards = []
         for m in self._board.legal_moves():
             self._board.push(m)
-            value = self.alphaBeta(self._depth - 1, False, -INF, +INF)
+            value = self.alphaBeta(self._board, self._depth - 1, False, -INF, +INF)
             if value > best_value:
                 best_value = value
                 best_move = m
@@ -192,10 +171,6 @@ class myPlayer(PlayerInterface):
             self._board.pop()
         return None
 
-    def blockPlayer(self):
-        oColor = self._board._flip(self._mycolor)
-        # return not self._board.at_least_one_legal_move(oColor)
-        return False
 
     def updateDepth(self):
         (opponent, player) = self._board.get_nb_pieces()
@@ -206,3 +181,5 @@ class myPlayer(PlayerInterface):
         elif pieces > MIDDLE_GAME:
             print('\x1b[6;30;43m' + 'DEPTH 5' + '\x1b[0m')
             self._depth = 5
+
+
