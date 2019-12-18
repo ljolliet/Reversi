@@ -3,7 +3,8 @@ import Reversi
 import openingBook
 from playerInterface import *
 import myEvaluator
-
+import copy
+import multiprocessing
 SIZE = 10
 EARLY_GAME = SIZE * SIZE / 3
 MIDDLE_GAME = SIZE * SIZE * 2 / 3
@@ -34,14 +35,14 @@ class myPlayer(PlayerInterface):
             print('\x1b[6;30;41m' + 'Opening move : ' + '\x1b[0m')
             move = opening_move
         else:
-            tmp_move_corner = self.cornerMove()
-            tmp_move_kill = self.blockMove()
-            if tmp_move_corner is not None:
+            corner_move = self.cornerMove()
+            block_move = self.blockMove()
+            if corner_move is not None:
                 print('\x1b[6;30;41m' + 'Quick move : ' + '\x1b[0m')
-                move = tmp_move_corner
-            if tmp_move_kill is not None:
+                move = corner_move
+            if block_move is not None:
                 print('\x1b[6;30;41m' + 'Block move : ' + '\x1b[0m')
-                move = tmp_move_kill
+                move = block_move
             else:
                 move = self.start_alphaBeta()
         print("MOVE ", move)
@@ -100,11 +101,69 @@ class myPlayer(PlayerInterface):
                     break
         return value
 
+    # def alphaBeta(self, board, depth, maximizingPlayer, alpha, beta):
+    #     if depth == 0 or board.is_game_over():
+    #         result = self._evaluator.compute()
+    #         return result
+    #     if maximizingPlayer:
+    #         value = -INF
+    #         for m in board.legal_moves():
+    #             board.push(m)
+    #             result = self.alphaBeta(board, depth - 1, False, alpha, beta)
+    #             value = max(value, result)
+    #             alpha = max(alpha, value)
+    #             board.pop()
+    #             if alpha >= beta:
+    #                 break
+    #     else:
+    #         value = INF
+    #         for m in board.legal_moves():
+    #             board.push(m)
+    #             result = self.alphaBeta(board, depth - 1, True, alpha, beta)
+    #             value = min(value, result)
+    #             beta = min(beta, value)
+    #             board.pop()
+    #             if alpha >= beta:
+    #                 break
+    #     return value
+    #
+    # def start_alphaBeta(self):
+    #     if self._board.is_game_over():
+    #         return
+    #     core_nb = multiprocessing.cpu_count()
+    #     p = multiprocessing.Pool(processes=int(core_nb))
+    #     best_move = None
+    #     best_value = -INF
+    #     boards = []
+    #     moves = []
+    #     for m in self._board.legal_moves():
+    #         board = copy.deepcopy(self._board)
+    #         board.push(m)
+    #         boards.append(board)
+    #         moves.append(moves)
+    #
+    #     values = p.starmap(self.alphaBeta, zip(boards, repeat(self._depth - 1), repeat(False), repeat(-INF), repeat(+INF)))
+    #     p.close()
+    #     p.join()
+    #
+    #     for b in boards:
+    #         b.pop()
+    #     results = zip(values, moves)
+    #     for value, move in results:
+    #         if value > best_value:
+    #             best_value = value
+    #             best_move = move
+    #     self._board.pop()
+    #
+    #     print('\x1b[6;30;42m' + 'Best move : ' + str(best_value) + '\x1b[0m')
+    #     return best_move
+
     def start_alphaBeta(self):
         if self._board.is_game_over():
             return
         best_move = None
         best_value = -INF
+        boards = []
         for m in self._board.legal_moves():
             self._board.push(m)
             value = self.alphaBeta(self._depth - 1, False, -INF, +INF)
