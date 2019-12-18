@@ -57,7 +57,6 @@ class heuristic:
         result = 100 * (nb_player_pieces - nb_opponent_pieces) / (nb_player_pieces + nb_opponent_pieces)
         return result
 
-
     def mobility_calculation(self):
         opponentMoves = 0
         myMoves = 0
@@ -120,11 +119,11 @@ class heuristic:
         (opponent, player) = self._board.get_nb_pieces()
         return 100 * (player - opponent) / (player + opponent)
 
+
     def stability(self):
         myStabiliy = opponnentStability = 0 # TODO
         if myStability + opponnentStability is not 0:
             return 100 * (myStability - opponnentStability) / (myStability + opponnentStability)
         else:
             return 0
-
 

@@ -124,10 +124,5 @@ def generateCorrespondingBook():
         newBook.append(new_l)
 
 
-def printBook(book):
-    for l in book:
-        print(l)
-
-
 generateCorrespondingBook()
-printBook(newBook)
+print(newBook)

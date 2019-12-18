@@ -24,7 +24,7 @@ class myPlayer(PlayerInterface):
         self._color = None
         self._evaluator = secondEvaluator.secondEvaluator(self._board)  # TODO at the end set the heuristic
         self._depth = 3
-        self._openingBook = openingBook.openingBook()
+        self._openingBook = openingBook.OpeningBook()
 
     def getPlayerName(self):
         return "Quick Player"
@@ -37,6 +37,7 @@ class myPlayer(PlayerInterface):
 
         opening_move = self._openingBook.getNextMove()
         if opening_move is not None:
+            print('\x1b[6;30;41m' + 'Opening move : ' + '\x1b[0m')
             move = opening_move
         else:
             tmp_move_corner = self.quickMove()
@@ -61,11 +62,13 @@ class myPlayer(PlayerInterface):
     def playOpponentMove(self, x, y):
         assert (self._board.is_valid_move(self._opponent, x, y))
         print("Opponent played ", (x, y))
+        self._openingBook.addOponnentMove(x,y)
         self._board.push([self._opponent, x, y])
 
     def newGame(self, color):
         self._mycolor = color
         self._evaluator.setColor(color)
+        self._openingBook.setColor(color)
         self._opponent = 1 if color == 2 else 2
 
     def endGame(self, winner):
