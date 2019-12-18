@@ -71,12 +71,6 @@ class heuristic:
     def mobility_v2(self):
         (myMoves, opponentMoves) = self.mobility_calculation()
         result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
-        # idée : si le nombre d'opponentMoves est de 0, favoriser grandement le coup
-
-        # if opponentMoves != 0:
-        # result = 100 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
-        # else:
-        # result = 150 * (myMoves - opponentMoves) / (myMoves + opponentMoves + 1)
         return result
 
     def mobility_v3(self):
@@ -121,7 +115,7 @@ class heuristic:
 
 
     def stability(self):
-        myStabiliy = opponnentStability = 0 # TODO
+        myStability = opponnentStability = 0 # TODO
         if myStability + opponnentStability is not 0:
             return 100 * (myStability - opponnentStability) / (myStability + opponnentStability)
         else:
