@@ -1,10 +1,7 @@
-import seattlePlayer
 from testLocalGame import launchLocalGame
 import result
 import myPlayer
 import quickMovePlayer
-import randomPlayer
-import seattleEvaluator
 
 size = 2
 assert size % 2 is 0  # size must be an even number ( multiple of 2)
