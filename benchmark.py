@@ -1,7 +1,6 @@
 from testLocalGame import launchLocalGame
 import result
 import myPlayer
-import quickMovePlayer
 
 size = 2
 assert size % 2 is 0  # size must be an even number ( multiple of 2)
@@ -9,8 +8,8 @@ first = result.Result()
 second = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
-    player1 = quickMovePlayer.myPlayer()
-    player2 = quickMovePlayer.myPlayer()
+    player1 = myPlayer.myPlayer()
+    player2 = myPlayer.myPlayer()
     print('\x1b[6;30;41m' + "################################### GAME NUMBER", str(i),
           "###################################" + '\x1b[0m')
     if i < size / 2:

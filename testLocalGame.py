@@ -1,11 +1,10 @@
 import Reversi
 import myPlayer
 import randomPlayer
-import quickMovePlayer
 import time
 
 
-def launchLocalGame(result=None, player1=quickMovePlayer.myPlayer(), player2=myPlayer.myPlayer()):
+def launchLocalGame(result=None, player1=myPlayer.myPlayer(), player2=myPlayer.myPlayer()):
     b = Reversi.Board(10)
 
     players = []

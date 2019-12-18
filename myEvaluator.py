@@ -5,7 +5,7 @@ EARLY_GAME = 31
 MIDDLE_GAME = 91
 
 
-class secondEvaluator(heuristicEvaluatorInterface):
+class myEvaluator(heuristicEvaluatorInterface):
 
     def __init__(self, board):
         self._board = board

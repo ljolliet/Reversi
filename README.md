@@ -32,6 +32,8 @@ Notre heurisitique finale est un ensemble de toutes ces sous-heuristiques avec d
 ### Algorithme
 Nous avons commencé par utiliser un simple MiniMax que nous avons ensuite amélioré en Alpha-Beta.
 Nous utilisons par défaut une profondeur de 3 mais elle peut évoluer dans le temps.
+
+QuickerMoves
  
 ### Bibliographie
 Voici un lien vers l'ensemble de nos insprations pour ce projet.
