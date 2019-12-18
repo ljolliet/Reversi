@@ -136,7 +136,7 @@ class myPlayer(PlayerInterface):
     def blockPlayer(self):
         oColor = self._board._flip(self._mycolor)
         # return not self._board.at_least_one_legal_move(oColor)
-        return False    
+        return False
 
     def updateDepth(self):
         (opponent, player) = self._board.get_nb_pieces()

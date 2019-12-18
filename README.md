@@ -29,12 +29,14 @@ Notre heurisitique finale est un ensemble de toutes ces sous-heuristiques avec d
 - Milieu de partie :
 - Fin de partie :
  
+## Exploration de l'arbre de jeu
 ### Algorithme
 Nous avons commencé par utiliser un simple MiniMax que nous avons ensuite amélioré en Alpha-Beta.
 Nous utilisons par défaut une profondeur de 3 mais elle peut évoluer dans le temps.
 
-QuickerMoves
- 
+### Raccourcis
+Pour essayer de diminuer la complexité nous avons ajouté des raccourcis. En effet, lorsqu'un coin est prenable ou qu'il est possible de bloquer l'adversaire lors de son prochain coup, on ne parcours pas l'arbre de jeu
+et le coup en question est directement retourné. Cela évite des parcours inutiles, pour des coups qu'un humain trouverait "évident". 
 ### Bibliographie
 Voici un lien vers l'ensemble de nos insprations pour ce projet.
 - http://play-othello.appspot.com/files/Othello.pdf
