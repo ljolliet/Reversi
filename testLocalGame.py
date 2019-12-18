@@ -14,6 +14,7 @@ def launchLocalGame(result=None, player1=myPlayer.myPlayer(), player2=myPlayer.m
     players.append(player1)
     # player2 = myPlayer.myPlayer()
     player2.newGame(b._WHITE)
+    player2._multiprocessing = False
     players.append(player2)
 
     totalTime = [0, 0]  # total real time for each player
@@ -63,4 +64,4 @@ def launchLocalGame(result=None, player1=myPlayer.myPlayer(), player2=myPlayer.m
         if result is not None: result.addDeuce()
     if result is not None: result.addScore(nbblacks, nbwhites)
 
-#launchLocalGame()
+launchLocalGame()

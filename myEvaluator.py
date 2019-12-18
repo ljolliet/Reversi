@@ -34,3 +34,6 @@ class myEvaluator(heuristicEvaluatorInterface):
 
     def getCorners(self):
         return self._heuristic._corners
+
+    def setBoard(self, board):
+        self._heuristic.setBoard(board)

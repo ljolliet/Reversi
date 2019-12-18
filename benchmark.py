@@ -10,7 +10,7 @@ second = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
     player1 = myPlayer.myPlayer()
-    player2 = myPlayer.myPlayer()
+    player2 = randomPlayer.myPlayer()
     print('\x1b[6;30;41m' + "################################### GAME NUMBER", str(i),
           "###################################" + '\x1b[0m')
     if i < size / 2:

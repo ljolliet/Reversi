@@ -28,6 +28,9 @@ class heuristic:
         self._board = board
         self._color = None
 
+    def setBoard(self, board):
+        self._board = board
+
     def nb_piece_heuristic(self):
         if self._color == self._board._WHITE:
             return self._board._WHITE - self._board._nbBLACK

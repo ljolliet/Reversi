@@ -1,3 +1,5 @@
+from itertools import repeat
+
 import Reversi
 
 import openingBook
@@ -15,7 +17,7 @@ INF = 1000000
 class myPlayer(PlayerInterface):
 
     def __init__(self):
-        self._multiprocessing = False
+        self._multiprocessing = True
         self._board = Reversi.Board(SIZE)
         self._color = None
         self._evaluator = myEvaluator.myEvaluator(self._board)
@@ -81,6 +83,7 @@ class myPlayer(PlayerInterface):
 
     def alphaBeta(self, board, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or board.is_game_over():
+            self._evaluator.setBoard(board)
             result = self._evaluator.compute()
             return result
         if maximizingPlayer:
@@ -119,7 +122,7 @@ class myPlayer(PlayerInterface):
             board = copy.deepcopy(self._board)
             board.push(m)
             boards.append(board)
-            moves.append(moves)
+            moves.append(m)
 
         values = p.starmap(self.alphaBeta, zip(boards, repeat(self._depth - 1), repeat(False), repeat(-INF), repeat(+INF)))
         p.close()
@@ -127,12 +130,12 @@ class myPlayer(PlayerInterface):
 
         for b in boards:
             b.pop()
-        results = zip(values, moves)
-        for value, move in results:
+
+        results = list(zip(values, moves))
+        for (value, move) in results:
             if value > best_value:
                 best_value = value
                 best_move = move
-        self._board.pop()
 
         print('\x1b[6;30;42m' + 'Best move : ' + str(best_value) + '\x1b[0m')
         return best_move
