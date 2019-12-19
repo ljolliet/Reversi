@@ -17,20 +17,19 @@ sera rendu public après le rendu de celui ci soit au *20 Décembre 2019*.
 - [x] use threads
 - [ ] use a chrono
 
-##Heuristique
-###Calcul
+## Heuristique
+### Calcul
 Notre heuristique prend en paramètre les facteurs suivants : 
 - **Les coins**  : la capture des coins est essentielle dans le reversi, capturer un coin, même si 
 cela ne garantit rien est un fort avantage pour la suite du jeu.
 - **La mobilité** :  ici le but est de laisser à l'adversaire un minimum de coup
-- **La parité** : 
 - **Le score** :  essentiellement utilisé à la fin du jeu, cette heuristique retourner la différence de score entre les deux joueurs.
 - **La stabilité** : on compte le nombre de pièces stables et non stable et on souhaite maximiser la différence. une pièce stable est 
 une pièce qui ne pourra pas être capturée par l'adversaire jusqu'à la fin du jeu.
 2
 Notre heurisitique finale est un ensemble de toutes ces sous-heuristiques avec des poids différents. Ces poids évoluent en fonction du temps de jeu.
 
-###Phases de jeu
+### Phases de jeu
 - Debut de partie : Au tout début du jeu, on utilise une **bibliothèque d'ouverture**, puis nous évaluons uniquement la mobilité et le nombre de coins. En effet, le score n'importe que très peu au début, tout comme la stabilité qui n'intervient que plus tard car il n'y a quasiment aucune pièce stable en début de partie. De plus, c'est l'heurisitque qui demande le plus de calcul, de ce fait, il est bon de ne pas l'utiliser inutilement en début de partie.
 - Milieu de partie :
 - Fin de partie :
