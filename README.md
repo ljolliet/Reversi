@@ -3,38 +3,24 @@ Le projet Reversi a été réalisé aux mois de Novembre et Decembre 2019 par [L
 et [Louis Jolliet](https://github.com/ljolliet/). Le [dépot](https://github.com/ljolliet/Reversi) de ce projet 
 sera rendu public après le rendu de celui ci soit au *20 Décembre 2019*.
 
-### Todo
-- [x] basic weights
-- [x] corners
-- [x] mobility
-- [ ] stability
-- [x] parity
-- [x] diff
-- [x] Opening Book
-- [ ] hashTable that remember some moves calculation
-- [x] game phases with different heuristic for each
-- [ ] change depth with game time
-- [x] use threads
-- [ ] use a chrono
-
-##Heuristique
-###Calcul
+## Heuristique
+### Calcul
 Notre heuristique prend en paramètre les facteurs suivants : 
 - **Les coins**  : la capture des coins est essentielle dans le reversi. Capturer un coin, même si 
 cela ne garantit rien, est un fort avantage pour la suite du jeu. L'heuristique calcul le nombre de coins pour chaque joueur
 - **La mobilité** :  le but de cette heuristique est de maximiser notre nombre de coups possibles et minimiser le nombre de coups
 de l'adversaire. Dans les meilleurs cas, cela peut amener à empêcher totalement l'adversaire de jouer. Pour ce faire, on calcul le 
 nombre de coup possible pour chaque joueur.
-- **La parité** : essentiellement utilisé à la fin du jeu, cette heuristique calcul le nombre de pion pour chaque joueur.
-- **La stabilité** : on compte le nombre de pièces stables et non stable et on souhaite maximiser la différence. Une pièce stable est 
+- **La parité** : essentiellement utilisé à la fin du jeu, cette heuristique calcul le nombre de pions pour chaque joueur.
+- **La stabilité** : on compte le nombre de pièces stables et non stables et on souhaite maximiser la différence. Une pièce stable est 
 une pièce qui ne pourra pas être capturée par l'adversaire jusqu'à la fin du jeu. Cet algorithme effectue le calcul de manière naïve
 
-Pour chacune des heuristiques on calcul une valeur à partir d'une valeur ami et une valeur ennemie qui sera renvoyer.
+Pour chacune des heuristiques, on calcul une valeur à partir d'une valeur amie et une valeur ennemie qui sera renvoyer.
 L'heuristique finale exécute ces heuristiques et applique des coefficients aux valeurs obtenues. Les heuristiques et les coefficients
 utilisés évoluent en fonction du temps de jeu.
 
 ### Phases de jeu
-- Debut de partie : Au tout début du jeu, on utilise une **bibliothèque d'ouverture**, puis nous évaluons uniquement la mobilité et le nombre de coins. En effet, le score n'importe que très peu au début, tout comme la stabilité qui n'intervient que plus tard car il n'y a quasiment aucune pièce stable en début de partie. De plus, c'est l'heurisitque qui demande le plus de calcul, de ce fait, il est bon de ne pas l'utiliser inutilement en début de partie.
+- Debut de partie : Au tout début du jeu, nous utilisons une **bibliothèque d'ouverture**, puis nous évaluons uniquement la mobilité et le nombre de coins. En effet, le score n'importe que très peu au début, tout comme la stabilité qui n'intervient que plus tard car il n'y a quasiment aucune pièce stable en début de partie. De plus, c'est l'heurisitque qui demande le plus de calcul, de ce fait, il est bon de ne pas l'utiliser inutilement en début de partie.
 - Milieu de partie : Au milieu de la partie, on utilise les heuristiques de coin, de mobilité, de score et de stabilité.
 - Fin de partie : A la fin de la partie, nous utilisons les mêmes heuristiques que précédemment mais avec des coefficients différents.
  

@@ -7,9 +7,9 @@ from playerInterface import *
 import myEvaluator
 import copy
 import multiprocessing
+
 SIZE = 10
-EARLY_GAME = SIZE * SIZE / 3
-MIDDLE_GAME = SIZE * SIZE * 2 / 3
+HALF_GAME = SIZE * SIZE / 2
 INF = 1000000
 
 
@@ -28,7 +28,7 @@ class myPlayer(PlayerInterface):
         return "Quick Player, eval : " + self._evaluator.getInfo()
 
     def getPlayerMove(self):
-        # self.updateDepth()
+        self.updateDepth()
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return -1, -1
@@ -108,7 +108,6 @@ class myPlayer(PlayerInterface):
                     break
         return value
 
-
     def start_alphaBeta_MultiProc(self):
         if self._board.is_game_over():
             return
@@ -124,7 +123,8 @@ class myPlayer(PlayerInterface):
             boards.append(board)
             moves.append(m)
 
-        values = p.starmap(self.alphaBeta, zip(boards, repeat(self._depth - 1), repeat(False), repeat(-INF), repeat(+INF)))
+        values = p.starmap(self.alphaBeta,
+                           zip(boards, repeat(self._depth - 1), repeat(False), repeat(-INF), repeat(+INF)))
         p.close()
         p.join()
 
@@ -174,15 +174,9 @@ class myPlayer(PlayerInterface):
             self._board.pop()
         return None
 
-
     def updateDepth(self):
         (opponent, player) = self._board.get_nb_pieces()
         pieces = opponent + player
-        if pieces > EARLY_GAME and pieces < MIDDLE_GAME:
+        if pieces > HALF_GAME:
             print('\x1b[6;30;43m' + 'DEPTH 4' + '\x1b[0m')
             self._depth = 4
-        elif pieces > MIDDLE_GAME:
-            print('\x1b[6;30;43m' + 'DEPTH 5' + '\x1b[0m')
-            self._depth = 5
-
-

@@ -4,7 +4,7 @@ import myPlayer
 import randomPlayer
 import lastEvaluator
 
-size = 20
+size =10
 assert size % 2 is 0  # size must be an even number ( multiple of 2)
 assert size > 0
 first = result.Result()
