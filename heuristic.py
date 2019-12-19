@@ -99,44 +99,106 @@ class heuristic:
     def ligneStableHorizontale(self, pieceX, pieceY, color):
         if pieceX == 0 or pieceX == self._size -1:
             return True
+
         x = 0
         y = pieceY
         lineFull = 0
         halfLineUnicolorLeft = 0
         halfLineUnicolorRight = 0
+        halfLineLeftFull = 0
+        halfLineRightFull = 0
+        leaveWhile = False
+        isStable = False
+
+
+
         for x in range(self._size):
             case = self._board._board[x][y]
             if case != self._board._EMPTY:
                 lineFull = lineFull + 1
             if x <= pieceX:
+                if case != self._board._EMPTY:
+                    halfLineLeftFull = halfLineLeftFull + 1
                 if case == color:
                     halfLineUnicolorLeft = halfLineUnicolorLeft + 1
             else:
+                if case != self._board._EMPTY:
+                    halfLineRightFull = halfLineRightFull + 1
                 if case == color:
                     halfLineUnicolorRight = halfLineUnicolorRight + 1
-        if (lineFull == self._size) or (halfLineUnicolorLeft == pieceX + 1) or (halfLineUnicolorRight == self._size - pieceX):
+
+        if halfLineLeftFull == pieceX + 1:
+            x = pieceX
+            while x + 1 < self._size and not leaveWhile and not isStable:
+                if self._board._board[x+1][y] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x+1][y] == self._board._flip(color):
+                    isStable =  True
+                else:
+                    x = x + 1
+
+        elif halfLineRightFull == (self._size - 1) - pieceX:
+            while x - 1 >= 0 and not leaveWhile and not isStable:
+                if self._board._board[x-1][y] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x-1][y] == self._board._flip(color):
+                    isStable = True
+                else:
+                    x = x - 1
+
+        if (lineFull == self._size) or (halfLineUnicolorLeft == pieceX + 1) or (halfLineUnicolorRight == self._size - pieceX) or isStable:
             return True
         return False
 
     def ligneStableVerticale(self, pieceX, pieceY, color):
         if pieceY == 0 or pieceY == self._size -1:
             return True
+
         x = pieceX
         y = 0
         lineFull = 0
         halfLineUnicolorTop = 0
         halfLineUnicolorDown = 0
+        halfLineTopFull = 0
+        halfLineDownFull = 0
+        leaveWhile = False
+        isStable = False
+
         for y in range(self._size):
             case = self._board._board[x][y]
             if case != self._board._EMPTY:
                 lineFull = lineFull + 1
             if y <= pieceY:
+                if case != self._board._EMPTY:
+                    halfLineTopFull = halfLineDownFull + 1
                 if case == color:
                     halfLineUnicolorTop = halfLineUnicolorTop + 1
             else:
+                if case != self._board._EMPTY:
+                    halfLineTopFull = halfLineDownFull + 1
                 if case == color:
                     halfLineUnicolorDown = halfLineUnicolorDown + 1
-        if (lineFull == self._size) or (halfLineUnicolorTop == pieceX + 1) or (halfLineUnicolorDown == self._size - pieceX):
+
+
+        if halfLineTopFull == pieceY + 1:
+            y = pieceY
+            while y + 1 < self._size and not leaveWhile and not isStable:
+                if self._board._board[x][y+1] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x][y+1] == self._board._flip(color):
+                    isStable = True
+                else:
+                    y = y + 1
+        elif halfLineDownFull == (self._size - 1) - pieceY:
+            while y - 1 >= 0 and not leaveWhile and not isStable:
+                if self._board._board[x][y-1] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x][y-1] == self._board._flip(color):
+                    isStable = True
+                else:
+                    y = y - 1
+
+        if (lineFull == self._size) or (halfLineUnicolorTop == pieceY + 1) or (halfLineUnicolorDown == self._size - pieceY) or isStable:
             return True
         return False
 
@@ -149,6 +211,10 @@ class heuristic:
         diagoSize = 1
         halfDiagoLeftSize = 0
         halfDiagoRightSize = 0
+        halfDiagoLeftFull = 0
+        halfDiagoRightFull = 0
+        leaveWhile = False
+        isStable = False
 
         x = pieceX
         y = pieceY
@@ -156,11 +222,12 @@ class heuristic:
         while (x + 1 < self._size - 1) and (y - 1 >= 0):
             case = self._board._board[x+1][y-1]
             if case != self._board._EMPTY:
+                halfDiagoRightFull = halfDiagoRightFull + 1
                 diagoDownTopFull = diagoDownTopFull + 1
                 if case == color:
-                    halfDiagoLeft = halfDiagoLeft + 1
+                    halfDiagoRight = halfDiagoRight + 1
             diagoSize = diagoSize + 1
-            halfDiagoLeftSize = halfDiagoLeftSize + 1
+            halfDiagoRightSize = halfDiagoRightSize + 1
             x = x + 1
             y = y - 1
 
@@ -170,16 +237,39 @@ class heuristic:
         while (x - 1 >= 0) and (y + 1 < self._size):
             case = self._board._board[x-1][y+1]
             if case != self._board._EMPTY:
+                halfDiagoLeftFull = halfDiagoLeftFull + 1
                 diagoDownTopFull = diagoDownTopFull + 1
                 if case == color:
-                    halfDiagoRight = halfDiagoRight + 1
+                    halfDiagoLeft = halfDiagoLeft + 1
             diagoSize = diagoSize + 1
-            halfDiagoRightSize = halfDiagoRightSize + 1
+            halfDiagoLeftSize = halfDiagoLeftSize + 1
             x = x - 1
             y = y + 1
 
+        if halfDiagoLeftSize == halfDiagoLeftFull:
+            x = pieceX
+            y = pieceY
+            while (x + 1 < self._size - 1) and (y - 1 >= 0) and not leaveWhile and not isStable:
+                if self._board._board[x+1][y-1] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x+1][y-1] == self._board._flip(color):
+                    isStable = True
+                else:
+                    x = x + 1
+                    y = y - 1
+        elif halfDiagoRightSize == halfDiagoRightFull:
+            while (x - 1 >= 0) and (y + 1 < self._size) and not leaveWhile and not isStable:
+                if self._board._board[x-1][y+1] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x-1][y+1] == self._board._flip(color):
+                    isStable = True
+                else:
+                    x = x - 1
+                    y = y + 1
+
+
         if (diagoDownTopFull == diagoSize) or (halfDiagoRight == halfDiagoRightSize) \
-                or (halfDiagoLeft == halfDiagoLeftSize):
+                or (halfDiagoLeft == halfDiagoLeftSize) or isStable:
             return True
         return False
 
@@ -192,6 +282,10 @@ class heuristic:
         diagoSize = 1
         halfDiagoTopSize = 0
         halfDiagoDownSize = 0
+        halfDiagoTopFull = 0
+        halfDiagoDownFull = 0
+        leaveWhile = False
+        isStable = False
 
         x = pieceX
         y = pieceY
@@ -199,6 +293,7 @@ class heuristic:
         while (x - 1 >= 0) and (y - 1 >= 0):
             case = self._board._board[x - 1][y - 1]
             if case != self._board._EMPTY:
+                halfDiagoTopFull = halfDiagoTopFull + 1
                 diagoTopDownFull = diagoTopDownFull + 1
                 if case == color:
                     halfDiagoTop = halfDiagoTop + 1
@@ -213,6 +308,7 @@ class heuristic:
         while (x + 1 < self._size) and (y + 1 < self._size):
             case = self._board._board[x + 1][y + 1]
             if case != self._board._EMPTY:
+                halfDiagoDownFull = halfDiagoDownFull + 1
                 diagoTopDownFull = diagoTopDownFull + 1
                 if case == color:
                     halfDiagoDown = halfDiagoDown + 1
@@ -221,8 +317,33 @@ class heuristic:
             diagoSize = diagoSize + 1
             halfDiagoDownSize = halfDiagoDownSize + 1
 
+        if halfDiagoTopSize == halfDiagoTopFull:
+            x = pieceX
+            y = pieceY
+            while (x + 1 < self._size) and (y + 1 < self._size) and not leaveWhile and not isStable:
+                if self._board._board[x + 1][y + 1] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x + 1][y + 1] == self._board._flip(color):
+                    isStable = True
+                else:
+                    x = x + 1
+                    y = y + 1
+
+
+        elif halfDiagoDownSize == halfDiagoDownFull:
+            x = pieceX
+            y = pieceY
+            while (x - 1 >= 0) and (y - 1 >= 0) and not leaveWhile and not isStable:
+                if self._board._board[x-1][y-1] == self._board._EMPTY:
+                    leaveWhile = True
+                elif self._board._board[x-1][y-1] == self._board._flip(color):
+                    isStable = True
+                else:
+                    x = x - 1
+                    y = y - 1
+
         if (diagoTopDownFull == diagoSize) or (halfDiagoDown == halfDiagoDownSize) \
-                or (halfDiagoTop == halfDiagoTopSize):
+                or (halfDiagoTop == halfDiagoTopSize) or isStable:
             return True
         return False
 
@@ -243,21 +364,31 @@ class heuristic:
             for y in range(self._size):
                 if self._board._board[x][y] != self._board._EMPTY:
                     if self._board._board[x][y] == self._color:
-                        horizontalStable = self.ligneStableHorizontale(x, y, self._color)
+                        if self.ligneStableHorizontale(x, y, self._color):
+                            if self.ligneStableVerticale(x, y, self._color):
+                                if self.diagoStableDownTop(x, y, self._color):
+                                    if self.diagoStableTopDown(x, y, self._color):
+                                        myStability = myStability + 1
+                        """horizontalStable = self.ligneStableHorizontale(x, y, self._color)
                         verticalStable = self.ligneStableVerticale(x, y, self._color)
                         firstDiagoStable = self.diagoStableDownTop(x, y, self._color)
                         secondDiagoStable = self.diagoStableTopDown(x, y, self._color)
 
                         if horizontalStable and verticalStable and firstDiagoStable and secondDiagoStable:
-                            myStability = myStability + 1
+                            myStability = myStability + 1"""
                     else:
-                        horizontalStable = self.ligneStableHorizontale(x, y, self._board._flip(self._color))
+                        if self.ligneStableHorizontale(x, y, self._board._flip(self._color)):
+                            if self.ligneStableVerticale(x, y, self._board._flip(self._color)):
+                                if self.diagoStableDownTop(x, y, self._board._flip(self._color)):
+                                    if self.diagoStableTopDown(x, y, self._board._flip(self._color)):
+                                        opponnentStability = opponnentStability + 1
+                        """horizontalStable = self.ligneStableHorizontale(x, y, self._board._flip(self._color))
                         verticalStable = self.ligneStableVerticale(x, y, self._board._flip(self._color))
                         firstDiagoStable = self.diagoStableDownTop(x, y, self._board._flip(self._color))
                         secondDiagoStable = self.diagoStableTopDown(x, y, self._board._flip(self._color))
 
                         if horizontalStable and verticalStable and firstDiagoStable and secondDiagoStable:
-                            opponnentStability = opponnentStability + 1
+                            opponnentStability = opponnentStability + 1"""
 
 
         if myStability + opponnentStability is not 0:
