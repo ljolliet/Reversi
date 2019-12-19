@@ -33,7 +33,7 @@ Pour chacune des heuristiques on calcul une valeur à partir d'une valeur ami et
 L'heuristique finale exécute ces heuristiques et applique des coefficients aux valeurs obtenues. Les heuristiques et les coefficients
 utilisés évoluent en fonction du temps de jeu.
 
-###Phases de jeu
+### Phases de jeu
 - Debut de partie : Au tout début du jeu, on utilise une **bibliothèque d'ouverture**, puis nous évaluons uniquement la mobilité et le nombre de coins. En effet, le score n'importe que très peu au début, tout comme la stabilité qui n'intervient que plus tard car il n'y a quasiment aucune pièce stable en début de partie. De plus, c'est l'heurisitque qui demande le plus de calcul, de ce fait, il est bon de ne pas l'utiliser inutilement en début de partie.
 - Milieu de partie : Au milieu de la partie, on utilise les heuristiques de coin, de mobilité, de score et de stabilité.
 - Fin de partie : A la fin de la partie, nous utilisons les mêmes heuristiques que précédemment mais avec des coefficients différents.
