@@ -373,7 +373,6 @@ class heuristic:
                         verticalStable = self.ligneStableVerticale(x, y, self._color)
                         firstDiagoStable = self.diagoStableDownTop(x, y, self._color)
                         secondDiagoStable = self.diagoStableTopDown(x, y, self._color)
-
                         if horizontalStable and verticalStable and firstDiagoStable and secondDiagoStable:
                             myStability = myStability + 1"""
                     else:
@@ -386,7 +385,6 @@ class heuristic:
                         verticalStable = self.ligneStableVerticale(x, y, self._board._flip(self._color))
                         firstDiagoStable = self.diagoStableDownTop(x, y, self._board._flip(self._color))
                         secondDiagoStable = self.diagoStableTopDown(x, y, self._board._flip(self._color))
-
                         if horizontalStable and verticalStable and firstDiagoStable and secondDiagoStable:
                             opponnentStability = opponnentStability + 1"""
 
@@ -396,5 +394,3 @@ class heuristic:
             return 100 * (myStability - opponnentStability) / (myStability + opponnentStability)
         else:
             return 0
-
-

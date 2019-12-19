@@ -15,7 +15,7 @@ sera rendu public après le rendu de celui ci soit au *20 Décembre 2019*.
 - [x] game phases with different heuristic for each
 - [ ] change depth with game time
 - [x] use threads
-- [ ]use a chrono
+- [ ] use a chrono
 
 ##Heuristique
 ###Calcul
@@ -47,6 +47,13 @@ et le coup en question est directement retourné. Cela évite des parcours inuti
 ### Utilisation de Threads
 Pour réduire le temps de calcul nous avons implémenté une **solution de multithreading**, qui calcule l'alphabeta à travers différents threads, séparé lors du premier niveau de l'algorithme. A priori, pour le tournoi c'est inutile car il n'y aura qu'un coeur disponible, mais pour nos tests, on obtient une rapidité supérieur de quasiment 40%.
 Pour le rendu nous allons désactiver cette option pour éviter des copies inutiles qui coûtent cher en temps.
+
+## Méthode de travail
+### Evaluateurs
+Pour comparer un maximum les heuristiques, nous avons créé une classe abstraite Evaluator que nous dérivons avec plusieurs évaluateurs utilisant différentes métadonnées comme poids des heuristiques. 
+De ce fait nous pouvions les faire s'affronter pour déterminer la plus efficace. Nous avons déterminé les poids en nous documentant, puis par tâtonnement.
+### Benchmark
+Nous avons créé un fichier permettant de faire s'affronter plusieurs fois 2 joueurs, en aller-retour. C'est ce qui nous a permis de comparer réellement deux évaluateurs, mais aussi de constater nos performances face au joueur de nos camarades.
 ## Bibliographie
 Voici un lien vers l'ensemble de nos insprations pour ce projet.
 - http://play-othello.appspot.com/files/Othello.pdf

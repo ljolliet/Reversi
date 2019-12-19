@@ -20,7 +20,7 @@ class myEvaluator(heuristicEvaluatorInterface):
             return mobility + corners
         elif pieces <= MIDDLE_GAME:
             mobility = 20 * self._heuristic.mobility_v2()
-            corners = 1000 * self._heuristic.corners_v2()
+            corners = 500 * self._heuristic.corners_v2()
             diff = 10 * self._heuristic.diff_v2()
             parity = 100 * self._heuristic.parity()
             stability = 25 * self._heuristic.stability()
