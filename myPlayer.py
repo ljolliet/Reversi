@@ -25,7 +25,7 @@ class myPlayer(PlayerInterface):
         self._depth = 3
 
     def getPlayerName(self):
-        return "Quick Player"
+        return "Quick Player, eval : " + self._evaluator.getInfo()
 
     def getPlayerMove(self):
         # self.updateDepth()
@@ -78,8 +78,8 @@ class myPlayer(PlayerInterface):
         else:
             print("I lost :(!!")
 
-    def setHeuristic(self, h):
-        self._evaluator = h
+    def setEvaluator(self, e):
+        self._evaluator = e
 
     def alphaBeta(self, board, depth, maximizingPlayer, alpha, beta):
         if depth == 0 or board.is_game_over():

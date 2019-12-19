@@ -23,11 +23,9 @@ class myEvaluator(heuristicEvaluatorInterface):
             corners = 1000 * self._heuristic.corners_v2()
             diff = 10 * self._heuristic.diff_v2()
             parity = 100 * self._heuristic.parity()
-            stability = 20 * self._heuristic.stability()
-            return mobility + corners + diff + parity + stability
+            return mobility + corners + diff + parity
         else:
-            return 100 * self._heuristic.mobility_v2() + 1000 * self._heuristic.corners_v2() \
-                   + 500 * self._heuristic.diff_v2() + 500 * self._heuristic.parity() + 200 * self._heuristic.stability()
+            return 100 * self._heuristic.mobility_v2() + 1000 * self._heuristic.corners_v2() + 500 * self._heuristic.diff_v2() + 500 * self._heuristic.parity()
 
     def setColor(self, color):
         self._heuristic._color = color
@@ -39,4 +37,4 @@ class myEvaluator(heuristicEvaluatorInterface):
         self._heuristic.setBoard(board)
 
     def getInfo(self):
-        return "contains stability"
+        return "classic one"
