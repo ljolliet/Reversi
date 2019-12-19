@@ -96,6 +96,7 @@ class heuristic:
         result = rest % 2 == 0 and -1 or 1
         return result
 
+    #Verify if a piece is stable in the horizontal line
     def ligneStableHorizontale(self, pieceX, pieceY, color):
         if pieceX == 0 or pieceX == self._size -1:
             return True
@@ -138,6 +139,7 @@ class heuristic:
                     x = x + 1
 
         elif halfLineRightFull == (self._size - 1) - pieceX:
+            x = pieceX
             while x - 1 >= 0 and not leaveWhile and not isStable:
                 if self._board._board[x-1][y] == self._board._EMPTY:
                     leaveWhile = True
@@ -150,6 +152,7 @@ class heuristic:
             return True
         return False
 
+    # Verify if a piece is stable in the vertical line
     def ligneStableVerticale(self, pieceX, pieceY, color):
         if pieceY == 0 or pieceY == self._size -1:
             return True
@@ -190,6 +193,7 @@ class heuristic:
                 else:
                     y = y + 1
         elif halfLineDownFull == (self._size - 1) - pieceY:
+            y = pieceY
             while y - 1 >= 0 and not leaveWhile and not isStable:
                 if self._board._board[x][y-1] == self._board._EMPTY:
                     leaveWhile = True
@@ -202,6 +206,7 @@ class heuristic:
             return True
         return False
 
+    # Verify if a piece is stable in the first diagonal
     def diagoStableDownTop(self, pieceX, pieceY, color):
         if pieceX == 0 or pieceX == self._size - 1 or pieceY == 0 or pieceY == self._size -1:
             return True
@@ -258,6 +263,8 @@ class heuristic:
                     x = x + 1
                     y = y - 1
         elif halfDiagoRightSize == halfDiagoRightFull:
+            x = pieceX
+            y = pieceY
             while (x - 1 >= 0) and (y + 1 < self._size) and not leaveWhile and not isStable:
                 if self._board._board[x-1][y+1] == self._board._EMPTY:
                     leaveWhile = True
@@ -273,6 +280,7 @@ class heuristic:
             return True
         return False
 
+    # Verify if a piece is stable in the second diagonal
     def diagoStableTopDown(self, pieceX, pieceY, color):
         if pieceX == 0 or pieceX == self._size - 1 or pieceY == 0 or pieceY == self._size - 1:
             return True
@@ -348,17 +356,9 @@ class heuristic:
         return False
 
 
-
-
-
-
     def stability(self):
         myStability = 0
         opponnentStability = 0
-        horizontalStable = False
-        verticalStable = False
-        firstDiagoStable = False
-        secondDiagoStable = False
 
         for x in range(self._size):
             for y in range(self._size):

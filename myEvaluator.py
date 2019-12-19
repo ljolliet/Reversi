@@ -21,17 +21,15 @@ class myEvaluator(heuristicEvaluatorInterface):
         elif pieces <= MIDDLE_GAME:
             mobility = 20 * self._heuristic.mobility_v2()
             corners = 500 * self._heuristic.corners_v2()
-            diff = 10 * self._heuristic.diff_v2()
             parity = 100 * self._heuristic.parity()
-            stability = 25 * self._heuristic.stability()
-            return mobility + corners + diff + parity + stability
+            stability = 20 * self._heuristic.stability()
+            return mobility + corners + parity + stability
         else:
             mobility = 100 * self._heuristic.mobility_v2()
             corners = 1000 * self._heuristic.corners_v2()
-            diff = 500 * self._heuristic.diff_v2()
             parity = 500 * self._heuristic.parity()
             stability = 150 * self._heuristic.stability()
-            return mobility + corners + diff + parity + stability
+            return mobility + corners + parity + stability
 
     def setColor(self, color):
         self._heuristic._color = color
