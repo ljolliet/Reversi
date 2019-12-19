@@ -27,7 +27,7 @@ cela ne garantit rien est un fort avantage pour la suite du jeu.
 - **Le score** :  essentiellement utilisé à la fin du jeu, cette heuristique retourner la différence de score entre les deux joueurs.
 - **La stabilité** : on compte le nombre de pièces stables et non stable et on souhaite maximiser la différence. une pièce stable est 
 une pièce qui ne pourra pas être capturée par l'adversaire jusqu'à la fin du jeu.
-
+2
 Notre heurisitique finale est un ensemble de toutes ces sous-heuristiques avec des poids différents. Ces poids évoluent en fonction du temps de jeu.
 
 ###Phases de jeu

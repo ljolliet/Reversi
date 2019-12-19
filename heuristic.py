@@ -99,6 +99,7 @@ class heuristic:
     def ligneStableHorizontale(self, pieceX, pieceY, color):
         if pieceX == 0 or pieceX == self._size -1:
             return True
+        x = 0
         y = pieceY
         lineFull = 0
         halfLineUnicolorLeft = 0
@@ -113,7 +114,7 @@ class heuristic:
             else:
                 if case == color:
                     halfLineUnicolorRight = halfLineUnicolorRight + 1
-        if (lineFull == self._size - 1) or (halfLineUnicolorLeft == pieceX + 1) or (halfLineUnicolorRight == self._size - pieceX):
+        if (lineFull == self._size) or (halfLineUnicolorLeft == pieceX + 1) or (halfLineUnicolorRight == self._size - pieceX):
             return True
         return False
 
@@ -121,6 +122,7 @@ class heuristic:
         if pieceY == 0 or pieceY == self._size -1:
             return True
         x = pieceX
+        y = 0
         lineFull = 0
         halfLineUnicolorTop = 0
         halfLineUnicolorDown = 0
@@ -134,7 +136,7 @@ class heuristic:
             else:
                 if case == color:
                     halfLineUnicolorDown = halfLineUnicolorDown + 1
-        if (lineFull == self._size - 1) or (halfLineUnicolorTop == pieceX + 1) or (halfLineUnicolorDown == self._size - pieceX):
+        if (lineFull == self._size) or (halfLineUnicolorTop == pieceX + 1) or (halfLineUnicolorDown == self._size - pieceX):
             return True
         return False
 
@@ -144,7 +146,7 @@ class heuristic:
         diagoDownTopFull = 1 #count the current piece
         halfDiagoLeft = 0
         halfDiagoRight = 0
-        diagoSize = 0
+        diagoSize = 1
         halfDiagoLeftSize = 0
         halfDiagoRightSize = 0
 
@@ -152,7 +154,7 @@ class heuristic:
         y = pieceY
 
         while (x + 1 < self._size - 1) and (y - 1 >= 0):
-            case = self._board._board[x][y]
+            case = self._board._board[x+1][y-1]
             if case != self._board._EMPTY:
                 diagoDownTopFull = diagoDownTopFull + 1
                 if case == color:
@@ -166,7 +168,7 @@ class heuristic:
         y = pieceY
 
         while (x - 1 >= 0) and (y + 1 < self._size):
-            case = self._board._board[x ][y]
+            case = self._board._board[x-1][y+1]
             if case != self._board._EMPTY:
                 diagoDownTopFull = diagoDownTopFull + 1
                 if case == color:
@@ -187,7 +189,7 @@ class heuristic:
         diagoTopDownFull = 1  # count the current piece
         halfDiagoTop = 0
         halfDiagoDown = 0
-        diagoSize = 0
+        diagoSize = 1
         halfDiagoTopSize = 0
         halfDiagoDownSize = 0
 
@@ -259,10 +261,9 @@ class heuristic:
 
 
         if myStability + opponnentStability is not 0:
+            #print("STABILITE 1 : ", myStability, " STABILTE 2 : ", opponnentStability)
             return 100 * (myStability - opponnentStability) / (myStability + opponnentStability)
         else:
             return 0
-
-
 
 

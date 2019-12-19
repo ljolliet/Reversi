@@ -4,7 +4,7 @@ import myPlayer
 import randomPlayer
 import lastEvaluator
 
-size = 2
+size = 10
 assert size % 2 is 0  # size must be an even number ( multiple of 2)
 assert size > 0
 first = result.Result()
@@ -12,8 +12,8 @@ second = result.Result()
 print("----- start benchmark ------")
 for i in range(size):
     player1 = myPlayer.myPlayer()
-    player2 = myPlayer.myPlayer()
-    player2.setEvaluator(lastEvaluator.myEvaluator(player2._board))
+    player2 = randomPlayer.myPlayer()
+    #player2.setEvaluator(lastEvaluator.myEvaluator(player2._board))
     print('\x1b[6;30;41m' + "################################### GAME NUMBER", str(i),
           "###################################" + '\x1b[0m')
     if i < size / 2:
