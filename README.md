@@ -14,7 +14,8 @@ sera rendu public après le rendu de celui ci soit au *20 Décembre 2019*.
 - [ ] hashTable that remember some moves calculation
 - [x] game phases with different heuristic for each
 - [ ] change depth with game time
-- [ ] use threads
+- [x] use threads
+- [ ]use a chrono
 
 ##Heuristique
 ###Calcul
@@ -30,7 +31,7 @@ une pièce qui ne pourra pas être capturée par l'adversaire jusqu'à la fin du
 Notre heurisitique finale est un ensemble de toutes ces sous-heuristiques avec des poids différents. Ces poids évoluent en fonction du temps de jeu.
 
 ###Phases de jeu
-- Debut de partie : Au tout début du jeu, on utilise une **bibliothèque d'ouverture**, puis nous évaluons .. #TODO
+- Debut de partie : Au tout début du jeu, on utilise une **bibliothèque d'ouverture**, puis nous évaluons uniquement la mobilité et le nombre de coins. En effet, le score n'importe que très peu au début, tout comme la stabilité qui n'intervient que plus tard car il n'y a quasiment aucune pièce stable en début de partie. De plus, c'est l'heurisitque qui demande le plus de calcul, de ce fait, il est bon de ne pas l'utiliser inutilement en début de partie.
 - Milieu de partie :
 - Fin de partie :
  
@@ -42,6 +43,10 @@ Nous utilisons par défaut une profondeur de 3 mais elle peut évoluer dans le t
 ### Raccourcis
 Pour essayer de diminuer la complexité nous avons ajouté des raccourcis. En effet, lorsqu'un coin est prenable ou qu'il est possible de bloquer l'adversaire lors de son prochain coup, on ne parcours pas l'arbre de jeu
 et le coup en question est directement retourné. Cela évite des parcours inutiles, pour des coups qu'un humain trouverait "évident". 
+
+### Utilisation de Threads
+Pour réduire le temps de calcul nous avons implémenté une **solution de multithreading**, qui calcule l'alphabeta à travers différents threads, séparé lors du premier niveau de l'algorithme. A priori, pour le tournoi c'est inutile car il n'y aura qu'un coeur disponible, mais pour nos tests, on obtient une rapidité supérieur de quasiment 40%.
+Pour le rendu nous allons désactiver cette option pour éviter des copies inutiles qui coûtent cher en temps.
 ## Bibliographie
 Voici un lien vers l'ensemble de nos insprations pour ce projet.
 - http://play-othello.appspot.com/files/Othello.pdf
